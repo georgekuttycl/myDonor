@@ -1,9 +1,9 @@
 const {Sequelize, DataTypes} = require('sequelize');
 
 const sequelize = new Sequelize({
-    database: '',
-    username: '',
-    password: '',
+    database: 'mydonor',
+    username: 'root',
+    password: '0000',
     dialect: 'mysql',
     host: 'localhost',
     port: 3306
@@ -123,47 +123,35 @@ const Hospital = sequelize.define('Hospital', {
         allowNull: false,
         references: {
             model: User,
-            key: 'id'
+            key: 'id',
         }
     }
 });
 
-const BloodBank = sequelize.define('BloodBank', {
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+
+User.hasOne(Customer, {foreignKey: 'userId',sourceKey: 'id'});
+Customer.belongsTo(User, {
+    foreignKey: {
+        name: 'userId',
+        field: 'userId',
     },
-    bloodGroup: {
-        type: DataTypes.STRING(10),
-        allowNull: false
-    },
-    quantity: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-    },
-    expiryDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    status: {
-        type: DataTypes.STRING(10),
-        allowNull: false,
-        defaultValue: 'available'
-    },
-    hospitalId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: Hospital,
-            key: 'id'
-        }
-    }
+    constraints: true,
+    onDelete: 'CASCADE',
 });
+
+User.hasOne(Hospital, {foreignKey: 'userId',sourceKey: 'id'});
+Hospital.belongsTo(User, {
+    foreignKey: {
+        name: 'userId',
+        field: 'userId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
+});
+
 
 module.exports = {
     User,
     Customer,
-    Hospital,
-    BloodBank
+    Hospital
 }
