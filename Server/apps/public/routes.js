@@ -4,7 +4,7 @@ const controller = require('../public/controller/controller');
 
 const router = express.Router();
 
-router.post('/cutomerRegistration', controller.customerRegistration);
+router.post('/customerRegistration', controller.customerRegistration);
 router.post('/hospitalRegistration', controller.hospitalRegistration);
 
 
