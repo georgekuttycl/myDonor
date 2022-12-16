@@ -3,7 +3,7 @@ const {Sequelize, DataTypes} = require('sequelize');
 const sequelize = new Sequelize({
     database: 'mydonor',
     username: 'root',
-    password: '0000',
+    password: 'shiny@08',
     dialect: 'mysql',
     host: 'localhost',
     port: 3306
@@ -226,6 +226,66 @@ const bloodGroup = sequelize.define('bloodGroup', {
     }
 });
 
+const request = sequelize.define('request', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    group:{
+        type:DataTypes.STRING(50),
+        allowNull:false,
+    },
+   quantity:{
+    type:DataTypes.STRING(10),
+    allowNull:false,
+   },
+   date:{
+    type:DataTypes.DATEONLY,
+    allowNull:false,
+   },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        }
+    }
+});
+
+const payment = sequelize.define('payment', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    amount:{
+        type:DataTypes.STRING(50),
+        allowNull:false,
+    },
+   date:{
+    type:DataTypes.DATEONLY,
+    allowNull:false,
+   },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        }
+    },
+    requestId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: request,
+            key: 'id',
+        }
+    }
+});
+
 const feedback = sequelize.define('feedback', {
     id: {
         type: DataTypes.INTEGER,
@@ -329,5 +389,7 @@ module.exports = {
     Appointment,
     AppointmentGuest,
     bloodGroup,
+    request,
+    payment,
     feedback
 }
