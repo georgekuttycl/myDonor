@@ -3,7 +3,7 @@ const {Sequelize, DataTypes} = require('sequelize');
 const sequelize = new Sequelize({
     database: 'mydonor',
     username: 'root',
-    password: 'Valavi@18',
+    password: '0000',
     dialect: 'mysql',
     host: 'localhost',
     port: 3306
