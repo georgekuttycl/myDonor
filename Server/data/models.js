@@ -3,7 +3,7 @@ const {Sequelize, DataTypes} = require('sequelize');
 const sequelize = new Sequelize({
     database: 'mydonor',
     username: 'root',
-    password: '0000',
+    password: 'shiny@08',
     dialect: 'mysql',
     host: 'localhost',
     port: 3306
@@ -41,7 +41,7 @@ const Customer = sequelize.define('Customer', {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    bloodGroup: {
+    Bloodgroup: {
         type: DataTypes.STRING(10),
         allowNull: false
     },
@@ -168,7 +168,7 @@ const AppointmentGuest = sequelize.define('AppointmentGuest', {
     type: DataTypes.STRING(50),
     allowNull: false,
    },
-   bloodGroup:{
+   Bloodgroup:{
     type:DataTypes.STRING(10),
     allowNull:false,
    },
@@ -194,7 +194,7 @@ const AppointmentGuest = sequelize.define('AppointmentGuest', {
     }
 });
 
-const bloodGroup = sequelize.define('bloodGroup', {
+const Bloodgroup = sequelize.define('Bloodgroup', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -226,7 +226,10 @@ const bloodGroup = sequelize.define('bloodGroup', {
     }
 });
 
-const request = sequelize.define('request', {
+
+
+const Request = sequelize.define('Request', {
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -254,7 +257,9 @@ const request = sequelize.define('request', {
     }
 });
 
-const payment = sequelize.define('payment', {
+
+const Payment = sequelize.define('Payment', {
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -280,13 +285,15 @@ const payment = sequelize.define('payment', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: request,
+            model: Request,
             key: 'id',
         }
     }
 });
 
-const feedback = sequelize.define('feedback', {
+
+const Feedback = sequelize.define('Feedback', {
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -351,8 +358,8 @@ AppointmentGuest.belongsTo(Appointment, {
     onDelete: 'CASCADE',
 });
 
-Appointment.hasMany(bloodGroup, {foreignKey: 'appointmentId',sourceKey: 'id'});
-bloodGroup.belongsTo(Appointment, {
+Appointment.hasMany(Bloodgroup, {foreignKey: 'appointmentId',sourceKey: 'id'});
+Bloodgroup.belongsTo(Appointment, {
     targetKey:'id',
     foreignKey: {
         name: 'appointmentId',
@@ -361,8 +368,8 @@ bloodGroup.belongsTo(Appointment, {
     constraints: true,
     onDelete: 'CASCADE',
 });
-AppointmentGuest.hasMany(bloodGroup, {foreignKey: 'appointmentGuestId',sourceKey: 'id'});
-bloodGroup.belongsTo(AppointmentGuest, {
+AppointmentGuest.hasMany(Bloodgroup, {foreignKey: 'appointmentGuestId',sourceKey: 'id'});
+Bloodgroup.belongsTo(AppointmentGuest, {
     targetKey:'id',
     foreignKey: {
         name: 'appointmentGuestId',
@@ -372,8 +379,8 @@ bloodGroup.belongsTo(AppointmentGuest, {
     onDelete: 'CASCADE',
 });
 
-User.hasOne(feedback, {foreignKey: 'userId',sourceKey: 'id'});
-feedback.belongsTo(User, {
+User.hasOne(Feedback, {foreignKey: 'userId',sourceKey: 'id'});
+Feedback.belongsTo(User, {
     foreignKey: {
         name: 'userId',
         field: 'userId',
@@ -388,8 +395,9 @@ module.exports = {
     Hospital,
     Appointment,
     AppointmentGuest,
-    bloodGroup,
-    request,
-    payment,
-    feedback
+    Bloodgroup,
+    Request,
+    Payment,
+    Feedback
+
 }
