@@ -4,8 +4,6 @@ const publicRoutes = require('./apps/public/routes');
 const adminRoutes = require('./apps/admin/adminRoutes');
 const customerRoutes = require('./apps/customer/customerRoutes')
 const hospitalRoutes = require('./apps/hospital/hospitalRoutes');
-const customerRoutes = require("./apps/customer/customerRoutes");
-
 
 const dotEnv = require('dotenv');
  const authMiddleware = require('./middlewares/authMiddleware');

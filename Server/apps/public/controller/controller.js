@@ -4,11 +4,11 @@ const { QueryTypes } = require('sequelize');
 const ResponseModel=require('../../../utilities/responseModel')
 const tokenHandler= require("../../../utilities/tokenHandler")
 const otp_verify = require("otp-verify"); //otp-verifier import
-// 
+//
 module.exports.customerRegistration = async(req,res)=>{
 
 
-    const {name,bloodGroup,phone,address,pin,state,weight,gender,email,password,age,otp } = req.body;
+    const {name,bloodGroup,phone,address,pin,state,weight,gender,email,password,age } = req.body;
     // email otp sending functionlaity.
     otp_verify.setupSenderEmail({
         service: "gmail",
@@ -16,7 +16,7 @@ module.exports.customerRegistration = async(req,res)=>{
         //for gmail, create an app password and use it
         pass: "dhdlltoprgqmqeok",
       });
-    
+
       otp_verify.sendOTP(
         {
           to: email,
@@ -30,7 +30,7 @@ module.exports.customerRegistration = async(req,res)=>{
         }
       );
       if(otp!=generatedOtp){
-        return 
+        return
       }
 
     //user details insertion to custumer table
@@ -67,7 +67,7 @@ module.exports.hospitalRegistration = async(req,res)=>{
         //for gmail, create an app password and use it
         pass: "dhdlltoprgqmqeok",
       });
-    
+
       otp_verify.sendOTP(
         {
           to: email,
@@ -80,9 +80,9 @@ module.exports.hospitalRegistration = async(req,res)=>{
           else console.log("Email sent", generatedOtp);
         }
       );
-      if(otp!=generatedOtp){
-        return 
-      }
+      // if(otp!=generatedOtp){
+      //   return
+      // }
 // insertion to User  table.
     const usertable = await User.create({
         email:email,
@@ -122,7 +122,7 @@ console.log(loggedUser)
 
     res.json(new ResponseModel(token))
 }
-    
+
 // function for forgot passsword//not yet completed.
 
 module.exports.forgotPassword= async (req,res)=>{
@@ -152,7 +152,7 @@ module.exports.forgotPassword= async (req,res)=>{
 // taking otp and password from req.body.upadating password feild
    const {otp,password}=req.body;
   if(otp!=generatedOtp){
-    return 
+    return
   }
 
   await User.update({
@@ -161,5 +161,5 @@ module.exports.forgotPassword= async (req,res)=>{
   {where:{email:email}
 
   })
-   
+
 }
