@@ -3,7 +3,7 @@ const {Sequelize, DataTypes} = require('sequelize');
 const sequelize = new Sequelize({
     database: 'mydonor',
     username: 'root',
-    password: '0000',
+    password: 'shiny@08',
     dialect: 'mysql',
     host: 'localhost',
     port: 3306
@@ -225,7 +225,6 @@ const Bloodgroup = sequelize.define('Bloodgroup', {
         }
     }
 });
-
 
 const Request = sequelize.define('Request', {
     id: {

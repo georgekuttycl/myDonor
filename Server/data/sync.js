@@ -10,4 +10,3 @@ Hospital.sync({alter: true});
 Feedback.sync({alter: true});
 Request.sync({alter: true});
 Payment.sync({alter: true});
-
