@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const publicRoutes = require('./apps/public/routes');
+const customerRoutes = require('./apps/customer/customerRoutes');
 const dotEnv = require('dotenv');
 // const authMiddleware = require('./middlewares/authMiddleware');
 const cors = require('cors');
@@ -16,5 +17,6 @@ app.use(bodyParser.json());
 
 
 app.use('/register', publicRoutes);
+app.use('/user', customerRoutes);
 
 app.listen(80);
