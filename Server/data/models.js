@@ -9,9 +9,6 @@ const sequelize = new Sequelize({
     port: 3306
 });
 
-
-/////
-
 const User = sequelize.define('User', {
     id: {
         type: DataTypes.INTEGER,
@@ -228,6 +225,7 @@ const Bloodgroup = sequelize.define('Bloodgroup', {
         }
     }
 });
+
 
 const Request = sequelize.define('Request', {
     id: {
