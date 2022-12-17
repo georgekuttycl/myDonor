@@ -226,7 +226,10 @@ const Bloodgroup = sequelize.define('Bloodgroup', {
     }
 });
 
+
+
 const Request = sequelize.define('Request', {
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -254,7 +257,9 @@ const Request = sequelize.define('Request', {
     }
 });
 
+
 const Payment = sequelize.define('Payment', {
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -286,7 +291,9 @@ const Payment = sequelize.define('Payment', {
     }
 });
 
+
 const Feedback = sequelize.define('Feedback', {
+
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -392,4 +399,5 @@ module.exports = {
     Request,
     Payment,
     Feedback
+
 }
