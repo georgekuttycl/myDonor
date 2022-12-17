@@ -15,20 +15,20 @@ module.exports.feedbackDetails = async(req,res)=>{
 }
 
 //customer requesting blood(joseph)
-module.exports.requestBlood=async (req,res)=>{
-        const{units,group}=req.body;
+// module.exports.requestBlood=async (req,res)=>{
+//         const{units,group}=req.body;
 
-        // fetching the stock from the blood group table.
-        let stockData=await bloodGroup.findOne({
-            where:{group:group}
-        })
-        // partioning the stockdata for avaialable syock.
+//         // fetching the stock from the blood group table.
+//         let stockData=await bloodGroup.findOne({
+//             where:{group:group}
+//         })
+//         // partioning the stockdata for avaialable syock.
 
-    let stockNow=stockData.dataValues.stock;
-    if(units<=stockNow){
-        console.log("stock avaialable")
-        return
-    }
-    console.log("no stock")
+//     let stockNow=stockData.dataValues.stock;
+//     if(units<=stockNow){
+//         console.log("stock avaialable")
+//         return
+//     }
+//     console.log("no stock")
 
-}
+// }

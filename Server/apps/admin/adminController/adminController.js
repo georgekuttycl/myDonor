@@ -59,22 +59,7 @@ console.log(req.params.id);
 }
 
 
-// module.exports.appointment = async(req,res)=>{
-//     // const {name,bloodGroup,weight,address,relation} = req.body;
-//     let data=await Appointment.findAll({
-//        where: { forWho=user }
-    
-//     })
 
-
-//      const AppointmentGuest = await AppointmentGuest.create({
-//         name:name,
-//         bloodGroup:bloodgroup,
-//         weight:weight,
-//         address:address,
-//         relation:relation,
-//         appointmentId:Appointment.dataValues.id
-//     })
 
 
     
