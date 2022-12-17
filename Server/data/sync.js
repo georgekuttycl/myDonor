@@ -1,12 +1,12 @@
-const {User,Customer,Hospital,Appointment,AppointmentGuest,bloodGroup,feedback,request,payment} = require('./models');
+const {User,Customer,Hospital,Appointment,AppointmentGuest,Bloodgroup,Feedback,Request,Payment} = require('./models');
 
 // Sync models with database.
 User.sync({alter: true});
 Customer.sync({alter: true});
 Appointment.sync({alter: true});
 AppointmentGuest.sync({alter: true});
-bloodGroup.sync({alter: true});
+Bloodgroup.sync({alter: true});
 Hospital.sync({alter: true});
-feedback.sync({alter: true});
-request.sync({alter: true});
-payment.sync({alter: true});
+Feedback.sync({alter: true});
+Request.sync({alter: true});
+Payment.sync({alter: true});
