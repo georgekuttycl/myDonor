@@ -2,28 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import Home from './Components/Public/Home';
+// import Home from './Components/Public/Home';
 import Login from './Components/Public/Login';
+// import ExamplesNavbar from './Components/Public/ExamplesNavbar';
+// import LandingPageHeader from './Components/Public/LandingPageHeader';
+import LandingPage from './Components/Public/LandingPage';
+import AdminLayout from './Components/Admin/AdminLayout';
 import reportWebVitals from './reportWebVitals';
 
+
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import Dashboard from './Components/Admin/Dashboard';
+import Donors from './Components/Admin/Donors';
+import Hospitals from './Components/Admin/Hospitals';
 
 
 const router = createBrowserRouter([
-  { path: "/", element:<div><App/><Home/></div>, children: [
-
-    // { path: "/about", element: <About/>},
-  ]},
-  { path: "/customerRegister", element:<div><App/><Login/></div>}
-
-  // { path: "/auth", element: <App/>, children: [
-  //   { path: "/auth/login", element: <Login/>},
-  // ]},
-  // {
-  //   path: '/user', element: <App/>, children: [
-  //     { path: '/user', element: <Contacts/> },
-  //   ]
-  // }
+  { path: "/", element:<div><LandingPage/></div>},
+  { path: "/customerRegister", element:<div><App/><Login/></div>},
+  {path: '/admin', element: <AdminLayout/>, children:[
+    {path: '/admin', element: <Dashboard/>},
+    {path: '/admin/donors', element: <Donors/>},
+    {path: '/admin/hospital', element: <Hospitals/>},
+  ]}
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
