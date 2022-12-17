@@ -1,9 +1,9 @@
 const {Sequelize, DataTypes} = require('sequelize');
 
 const sequelize = new Sequelize({
-    database: '',
-    username: '',
-    password: '',
+    database: 'mydonor',
+    username: 'root',
+    password: '0000',
     dialect: 'mysql',
     host: 'localhost',
     port: 3306
@@ -118,52 +118,278 @@ const Hospital = sequelize.define('Hospital', {
         type: DataTypes.STRING(10),
         allowNull: false
     },
+    status:{
+        type: DataTypes.STRING(10),
+        allowNull: false,
+        defaultValue:'0'
+    },
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: User,
-            key: 'id'
+            key: 'id',
         }
     }
 });
 
-const BloodBank = sequelize.define('BloodBank', {
+const Appointment = sequelize.define('Appointment', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    bloodGroup: {
-        type: DataTypes.STRING(10),
-        allowNull: false
+    date:{
+        type:DataTypes.DATEONLY,
+        allowNull:false,
     },
-    quantity: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    forWho:{
+    type:DataTypes.STRING(50),
+    allowNull:false,
+    defaultValue:'myself'
     },
-    expiryDate: {
-        type: DataTypes.DATE,
-        allowNull: false
-    },
-    status: {
-        type: DataTypes.STRING(10),
-        allowNull: false,
-        defaultValue: 'available'
-    },
-    hospitalId: {
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Hospital,
-            key: 'id'
+            model: User,
+            key: 'id',
         }
     }
+});
+
+const AppointmentGuest = sequelize.define('AppointmentGuest', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+   name:{
+    type: DataTypes.STRING(50),
+    allowNull: false,
+   },
+   bloodGroup:{
+    type:DataTypes.STRING(10),
+    allowNull:false,
+   },
+   weight:{
+    type:DataTypes.STRING(10),
+    allowNull:false,
+   },
+   address:{
+    type:DataTypes.STRING(200),
+    allowNull:false,
+   },
+   relation:{
+    type:DataTypes.STRING(50),
+    allowNull:false,
+   },
+   appointmentId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Appointment,
+            key: 'id',
+        }
+    }
+});
+
+const bloodGroup = sequelize.define('bloodGroup', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    group:{
+        type:DataTypes.STRING(50),
+        allowNull:false,
+    },
+   stock:{
+    type:DataTypes.STRING(50),
+    allowNull:false,
+   },
+    appointmentId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: Appointment,
+            key: 'id',
+        }
+    },
+    appointmentGuestId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: AppointmentGuest,
+            key: 'id',
+        }
+    }
+});
+
+const request = sequelize.define('request', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    group:{
+        type:DataTypes.STRING(50),
+        allowNull:false,
+    },
+   quantity:{
+    type:DataTypes.STRING(10),
+    allowNull:false,
+   },
+   date:{
+    type:DataTypes.DATEONLY,
+    allowNull:false,
+   },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        }
+    }
+});
+
+const payment = sequelize.define('payment', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    amount:{
+        type:DataTypes.STRING(50),
+        allowNull:false,
+    },
+   date:{
+    type:DataTypes.DATEONLY,
+    allowNull:false,
+   },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        }
+    },
+    requestId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: request,
+            key: 'id',
+        }
+    }
+});
+
+const feedback = sequelize.define('feedback', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    description:{
+        type:DataTypes.STRING(500),
+        allowNull:false,
+    },
+   date:{
+    type:DataTypes.DATEONLY,
+    allowNull:false,
+   },
+    userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: User,
+            key: 'id',
+        }
+    }
+});
+
+User.hasOne(Customer, {foreignKey: 'userId',sourceKey: 'id'});
+Customer.belongsTo(User, {
+    foreignKey: {
+        name: 'userId',
+        field: 'userId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
+});
+
+User.hasOne(Hospital, {foreignKey: 'userId',sourceKey: 'id'});
+Hospital.belongsTo(User, {
+    foreignKey: {
+        name: 'userId',
+        field: 'userId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
+});
+
+User.hasOne(Appointment, {foreignKey: 'userId',sourceKey: 'id'});
+Appointment.belongsTo(User, {
+    foreignKey: {
+        name: 'userId',
+        field: 'userId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
+});
+
+
+Appointment.hasOne(AppointmentGuest, {foreignKey: 'appointmentId',sourceKey: 'id'});
+AppointmentGuest.belongsTo(Appointment, {
+    foreignKey: {
+        name: 'appointmentId',
+        field: 'appointmentId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
+});
+
+Appointment.hasMany(bloodGroup, {foreignKey: 'appointmentId',sourceKey: 'id'});
+bloodGroup.belongsTo(Appointment, {
+    targetKey:'id',
+    foreignKey: {
+        name: 'appointmentId',
+        field: 'appointmentId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
+});
+AppointmentGuest.hasMany(bloodGroup, {foreignKey: 'appointmentGuestId',sourceKey: 'id'});
+bloodGroup.belongsTo(AppointmentGuest, {
+    targetKey:'id',
+    foreignKey: {
+        name: 'appointmentGuestId',
+        field: 'appointmentGuestId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
+});
+
+User.hasOne(feedback, {foreignKey: 'userId',sourceKey: 'id'});
+feedback.belongsTo(User, {
+    foreignKey: {
+        name: 'userId',
+        field: 'userId',
+    },
+    constraints: true,
+    onDelete: 'CASCADE',
 });
 
 module.exports = {
     User,
     Customer,
     Hospital,
-    BloodBank
+    Appointment,
+    AppointmentGuest,
+    bloodGroup,
+    request,
+    payment,
+    feedback
 }
