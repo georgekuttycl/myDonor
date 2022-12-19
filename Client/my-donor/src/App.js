@@ -58,7 +58,7 @@
 //           data-placement="bottom"
 //           to="/index"
 //           target="_blank"
-//           title="Coded by Creative Tim"
+//           title="Coded by MyDonor Team"
 //           tag={Link}
 //         >
 //           Paper Kit 2

@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input, select, textarea{
+    width: 100%;
+    border: 2px solid gray;
+    padding: 0 5px!important;
+}
+
+label{
+    font-weight: normal;
+}
+
+label::after{
+    content: ':';
+}
+
+input:focus, select:focus, textarea:focus{
+    outline: 2px solid blue;
+}
+
+.navbar, .navbar-transparent{
+    background-color: white!important;
+}
+
+.nav-link{
+    color: red!important;
+}
+
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color: red;
+  }
+
+  .hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color:red;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  .hover-underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
