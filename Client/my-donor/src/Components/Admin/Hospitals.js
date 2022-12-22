@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import MUIDataTable from "mui-datatables";
+import {customerRegister} from "../../api/accountsApi";
+import { useState,useEffect } from "react";
 
 class Hospitals extends Component {
   render() {
@@ -11,11 +13,9 @@ class Hospitals extends Component {
       ["Bob Herm", "Test Corp", "Tampa", "FL"],
       ["James Houston", "Test Corp", "Dallas", "TX"],
     ];
-
     const options = {
       filterType: "checkbox",
     };
-
     return (
       <div className="App wrapper">
 

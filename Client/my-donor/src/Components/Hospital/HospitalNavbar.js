@@ -43,6 +43,10 @@ function HospitalNavbar() {
         window.removeEventListener("scroll", updateNavbarColor);
       };
     });
+    function Logout(){
+      localStorage.removeItem('token');
+      window.location.replace('/');
+    }
   return (
     <Navbar
     className={classnames("fixed-top", navbarColor)}
@@ -93,6 +97,14 @@ function HospitalNavbar() {
           </NavItem>
           <NavItem>
             <NavLink
+              href={"/hospital/profile"}
+              className="hover-underline-animation"
+            >
+               Profile
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
               to={"/hospital/purchase"}
               tag={Link}
                className="hover-underline-animation"
@@ -105,6 +117,7 @@ function HospitalNavbar() {
               className="btn-round"
               style={{backgroundColor:'red',borderColor:'red'}}
               to={"/"}
+              onClick={Logout}
               tag={Link}
             >
               <i class="fa-solid fa-right-from-bracket"></i> Logout

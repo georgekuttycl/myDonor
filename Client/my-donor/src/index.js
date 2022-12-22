@@ -25,15 +25,28 @@ import CustomerLayout from './Components/Customer/CustomerLayout';
 import CustomerHome from './Components/Customer/CustomerHome';
 import CustomerProfile from './Components/Customer/CustomerProfile';
 import Home from './Components/Public/Home';
+import HomeLearn from './Components/Public/HomeLearn';
+import HomeGallery from './Components/Public/HomeGallery';
+import HomeTypes from './Components/Public/HomeTypes';
 import HospitalSignup from './Components/Public/HospitalSignup';
 import ForgotPassword from './Components/Public/ForgotPassword';
 import CustomerAppointment from './Components/Customer/CustomerAppointment';
 import CustomerRequests from './Components/Customer/CustomerRequests';
+import CustomerInvoice from './Components/Customer/CustomerInvoice';
+import CustomerUpdate from './Components/Customer/updateCustomer';
 import About from './Components/Public/About';
 import HospitalLayout from './Components/Hospital/HospitalLayout';
 import HospitalHome from './Components/Hospital/HospitalHome';
 import HospitalProfile from './Components/Hospital/HospitalProfile';
-import HospitalRequest from './Components/Hospital/HospitalRequest';
+import CustomerAppointmentGuest from './Components/Customer/CustomerAppointmentGuest';
+import CustomerPayment from './Components/Customer/CustomerPayment';
+import HospitalPayment from './Components/Hospital/HospitalPayment';
+import HospitalList from './Components/Admin/HospitalList';
+import HospitalInvoice from './Components/Hospital/HospitalInvoice';
+import HospitalUpdate from './Components/Hospital/HospitalUpdate';
+import CustomerDonation from './Components/Admin/CustomerDonation';
+import HospitalRequests from './Components/Hospital/HospitalRequest';
+
 
 
 const router = createBrowserRouter([
@@ -41,7 +54,9 @@ const router = createBrowserRouter([
     {path: '/', element: <Home/>},
     {path: '/login', element: <Login/>},
     {path: '/forgot-password', element: <ForgotPassword/>},
-
+    { path: '/learn', element: <HomeLearn/> },
+      { path: '/gallery', element: <HomeGallery/> },
+      { path: '/types', element: <HomeTypes/> },
   ]},
 
   { path: "/customerSignup", element:<div><ExamplesNavbar/><CustomerSignup/></div>},
@@ -50,20 +65,28 @@ const router = createBrowserRouter([
   {path: '/admin', element: <AdminLayout/>, children:[
     {path: '/admin', element: <Dashboard/>},
     {path: '/admin/donors', element: <Donors/>},
-    {path: '/admin/hospital', element: <Hospitals/>},
+    {path: '/admin/hospital', element: <HospitalList/>},
+    {path: '/admin/appointments', element: <CustomerDonation/>},
   ]},
   {path: '/customer', element: <CustomerLayout/>, children:[
     {path: '/customer', element: <CustomerHome/>},
     {path: '/customer/profile', element: <CustomerProfile/>},
+    {path: '/customer/update', element: <CustomerUpdate/>},
     {path: '/customer/appointment', element: <CustomerAppointment/>},
     {path: '/customer/purchase', element: <CustomerRequests/>},
-    {path: '/customer/about', element: <About/>}
+    {path: '/customer/about', element: <About/>},
+    {path: '/customer/payment', element: <CustomerPayment/>},
+    {path: '/customer/appointment-guest', element: <CustomerAppointmentGuest/>},
+    { path: '/customer/invoice', element: <CustomerInvoice /> }
 
   ]},
   {path: '/hospital', element: <HospitalLayout/>, children:[
     {path: '/hospital', element: <HospitalHome/>},
     {path: '/hospital/profile', element: <HospitalProfile/>},
-    {path: '/hospital/purchase', element: <HospitalRequest/>},
+    {path: '/hospital/purchase', element: <HospitalRequests/>},
+    {path: '/hospital/payment', element: <HospitalPayment/>},
+    { path: '/hospital/invoice', element: <HospitalInvoice /> },
+    {path: '/hospital/update', element: <HospitalUpdate/>}
   ]},
 ]);
 

@@ -5,4 +5,8 @@ const login = async (data)=>{
     return response.data;
 }
 
+const getAllAppointments = ()=>{
+    axios.get()
+}
+
 export {login}

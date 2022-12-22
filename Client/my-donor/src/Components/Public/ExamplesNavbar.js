@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
@@ -11,8 +10,9 @@ import {
   NavLink,
   Nav,
   Container,
-  Button
+  Button,
 } from "reactstrap";
+import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import Home from "./Home";
 
 function ExamplesNavbar() {
@@ -27,13 +27,13 @@ function ExamplesNavbar() {
   React.useEffect(() => {
     const updateNavbarColor = () => {
       if (
-        document.documentElement.scrollTop > 299 ||
-        document.body.scrollTop > 299
+        document.documentElement.scrollTop > 150 ||
+        document.body.scrollTop > 150
       ) {
         setNavbarColor("");
       } else if (
-        document.documentElement.scrollTop < 300 ||
-        document.body.scrollTop < 300
+        document.documentElement.scrollTop < 200 ||
+        document.body.scrollTop < 200
       ) {
         setNavbarColor("navbar-transparent");
       }
@@ -45,6 +45,7 @@ function ExamplesNavbar() {
       window.removeEventListener("scroll", updateNavbarColor);
     };
   });
+
   return (
     <Navbar
       className={classnames("fixed-top", navbarColor)}
@@ -60,12 +61,12 @@ function ExamplesNavbar() {
             title="Coded by MyDonor Team"
             tag={Link}
           >
-            <img src={logo} height={80} width={120}/>
+            <img src={logo} height={80} width={120} />
           </NavbarBrand>
           <button
             aria-expanded={navbarCollapse}
             className={classnames("navbar-toggler navbar-toggler", {
-              toggled: navbarCollapse
+              toggled: navbarCollapse,
             })}
             onClick={toggleNavbarCollapse}
           >
@@ -81,34 +82,48 @@ function ExamplesNavbar() {
         >
           <Nav navbar>
             <NavItem>
-              <NavLink to="/" tag={Link} style={{color:'red'}} className="hover-underline-animation">Home
+              <NavLink
+                to="/"
+                tag={Link}
+                style={{ color: "red" }}
+                className="hover-underline-animation"
+              >
+                Home
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                href="/about" tag={Link} className="hover-underline-animation"
-              >About
+                href="/about"
+                tag={Link}
+                className="hover-underline-animation"
+              >
+                About
               </NavLink>
             </NavItem>
             <NavItem>
-            <Link to={'/login'}>
-              <Button
-                className="btn-round"
-              >
-                <i className="nc-icon nc-spaceship"></i>
-                 Sign in
-              </Button>
+              <Link to={"/login"}>
+                <Button className="btn-round">
+                  <i className="nc-icon nc-spaceship"></i>
+                  Sign in
+                </Button>
               </Link>
-              <Link to={'/customerSignup'}>
-              <Button
+              <Link to={"/customerSignup"}>
+                {/* <Button
                 className="btn-round"
-                style={{backgroundColor:'red',borderColor:'red'}}
-              >
+                style={{backgroundColor:'red',borderColor:'red'}}>
                <i class="fa-solid fa-right-to-bracket"></i>
                  Sign up
-              </Button>
+              </Button> */}
               </Link>
             </NavItem>
+            <UncontrolledDropdown>
+                <DropdownToggle caret style={{backgroundColor:'red',borderColor:'red',borderRadius:'20px'}}> <i class="fa-solid fa-right-to-bracket"></i>sign up</DropdownToggle>
+                <DropdownMenu>
+                <Link to={"/customerSignup"} > <DropdownItem style={{textDecoration:'none'}}>Customer</DropdownItem></Link>
+                <Link to={"/hospitalSignup"} > <DropdownItem style={{textDecoration:'none'}}>Hospital</DropdownItem></Link>
+
+                </DropdownMenu>
+              </UncontrolledDropdown>
           </Nav>
         </Collapse>
       </Container>

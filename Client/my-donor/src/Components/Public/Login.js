@@ -2,27 +2,51 @@ import {React, useState} from 'react'
 import {Formik, Form, Field, ErrorMessage} from "formik"
 import * as Yup from 'yup';
 // import {login as loginService} from "../../Services/AuthService"
-import {Link, Navigate} from "react-router-dom";
+import {Link, Navigate, useNavigate} from "react-router-dom";
 import './Login.css';
+import {login} from "../../api/accountsApi";
+import jwt_decode from "jwt-decode";
 
 
 function Login() {
+
+  const navigate = useNavigate();
+
+  async function checkLogin(values){
+    var res = await login(values);
+    if(!res.success){
+      alert(res.errors[0]);
+      return;
+    }
+    localStorage.setItem('token', res.data);
+    console.log("Here", res);
+    var res = jwt_decode(res.data);
+    console.log(res);
+    switch (res.role) {
+      case 'customer':
+        return navigate('/customer');
+      case 'admin':
+        return navigate('/admin');
+      case 'hospital':
+        return navigate('/hospital');
+      default:
+        break;
+    }
+  }
+
+  const validationSchema = Yup.object({
+    email: Yup.string().email('Invalid email').required('Email is required.'),
+    password: Yup.string().min(6).required('Password is required.'),
+  });
+
   return (
     <div className='flex mb-5 justify-center mt-32'>
       <div className='rounded shadow-lg p-5 w-1/3'>
         <h1 className='text-center text-red-600 text-3xl mb-3'>Login</h1>
         <Formik
           initialValues={{ email: '', password: '' }}
-          validationSchema={Yup.object({
-            email: Yup.string().email('Invalid email').required('Email is required.'),
-            password: Yup.string().min(6).required('Password is required.'),
-          })}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 400);
-          }}
+          validationSchema={validationSchema}
+          onSubmit={checkLogin}
         >
           {({ isSubmitting }) => (
             <Form>
@@ -37,7 +61,7 @@ function Login() {
                 <ErrorMessage name="password" component="div" className='text-red-600 mt-2'/>
               </div>
               <div className='mt-4 grid'>
-                <button type="submit" disabled={isSubmitting} className='bg-red-600 hover:bg-red-800 transition text-white rounded-md p-2'>
+                <button type="submit" className='bg-red-600 hover:bg-red-800 transition text-white rounded-md p-2'>
                   Submit
                 </button>
               </div>

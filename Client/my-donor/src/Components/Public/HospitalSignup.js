@@ -1,40 +1,58 @@
 import * as React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {hospitalRegister} from '../../api/accountsApi';
+import { useNavigate } from "react-router-dom";
 
 function HospitalSignup() {
+
+  let navigate = useNavigate();
+  const [visible, setVisible] = React.useState(true);
+  const [data, setData] = React.useState({});
   return (
     <div>
       <br></br>
       <br></br>
       <br></br>
-      <div className="container mx-auto">
-        <div className="flex justify-center px-6 my-12">
-          <div className="w-full xl:w-3/4 lg:w-11/12 flex">
-            <div
-              className="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
-              style={{
-                backgroundImage: `url('https://img.freepik.com/premium-photo/close-up-patient-with-tubes-her-arm-squeezing-ball-her-hand-while-donating-blood_249974-4241.jpg?w=900')`,
-              }}
-            ></div>
-            <div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
-              <h3 className="pt-4 text-2xl text-center">Create an Account!</h3>
-              <Formik
-                initialValues={{ email: "", password: "" }}
-                validationSchema={Yup.object({
-                  fullName: Yup.string().min(2).max(25).required(),
-                  // email: Yup.string().email().min(2).max(25).required(),
-                  // age: Yup.number().moreThan(18).lessThan(60).required(),
-                  // gender: Yup.required(),
-                  // age: Yup.string().required(),
-                  // weight: Yup.number().moreThan(50).lessThan(150).required()
-                })}
-                onSubmit={(values, { setSubmitting }) => {
-                  console.log(values);
-                }}
-              >
-                {({ isSubmitting }) => (
-                  <Form>
+
+      <Formik
+       initialValues={{ email: "", password: "", confirmPassword: "", name: "", address: "", phone: "", state: "", pincode: "", licenseNumber: "" }}
+       validationSchema={Yup.object({
+         name: Yup.string().min(2).max(25).required("Required"),
+         email: Yup.string().email('please enter valid email').required("Required"),
+         password: Yup.string().min(6).max(8).required('Required'),
+         confirmPassword: Yup.string().min(6).max(8).required('Required')
+         .oneOf([Yup.ref('password'), null], 'Password must match'),
+         address: Yup.string().required("Required"),
+         phone: Yup.string().min(10).required("Required"),
+         state: Yup.string().required("Required"),
+         pincode: Yup.string().min(6).required("Required"),
+         licenseNumber: Yup.string().min(3).max(8).required("Required")
+        })}
+        onSubmit={async (values, { setSubmitting }) => {
+          setData(values);
+          await hospitalRegister(values);
+          console.log(values);
+        }}
+      >
+        {({ isSubmitting }) => (
+          <Form>
+            <div className="container mx-auto">
+              <div className="flex justify-center px-6 my-12">
+                <div
+                  className="w-full xl:w-3/4 lg:w-11/12 flex"
+                  style={{ display: visible ? "display" : "none" }}
+                >
+                  <div
+                    className="w-full h-auto bg-gray-400 hidden lg:block lg:w-5/12 bg-cover rounded-l-lg"
+                    style={{
+                      backgroundImage: `url('https://img.freepik.com/premium-photo/close-up-patient-with-tubes-her-arm-squeezing-ball-her-hand-while-donating-blood_249974-4241.jpg?w=900')`,
+                    }}
+                  ></div>
+                  <div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
+                    <h3 className="pt-4 text-2xl text-center">
+                      Register Your Hospital
+                    </h3>
                     <div className="grid grid-cols-2 gap-2">
                       <div className="col-span-2">
                         <label>Name</label>
@@ -64,7 +82,7 @@ function HospitalSignup() {
                       </div>
                       <div className="col-span-1">
                         <label>Category</label>
-                        <select
+                        <Field as="select"
                           name="category"
                           type="text"
                           className="border rounded shadow-md py-2"
@@ -72,7 +90,7 @@ function HospitalSignup() {
                           <option defaultChecked>Choose..</option>
                           <option value="private">Private</option>
                           <option value="government">Government</option>
-                        </select>
+                        </Field>
                         <ErrorMessage
                           name="phone"
                           className="text-red-600"
@@ -82,12 +100,12 @@ function HospitalSignup() {
                       <div className="col-span-2 my-2">
                         <label>Address</label>
 
-                        <textarea
+                        <Field as="textarea"
                           className="border rounded shadow-md"
                           id="address"
                           name="address"
                           rows="4"
-                        ></textarea>
+                        ></Field>
                         <ErrorMessage
                           name="address"
                           className="text-red-600"
@@ -176,18 +194,47 @@ function HospitalSignup() {
                         <button
                           type="submit"
                           className="bg-red-600 text-white rounded-md p-2 mt-2 hover:bg-red-800 transition w-full"
-                        >
-                          Register
+                          onClick={() => setVisible(!visible)}>{visible ? "" : "Show"} Register
                         </button>
                       </div>
                     </div>
-                  </Form>
-                )}
-              </Formik>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
+            <div
+              style={{ display: !visible ? "block" : "none" }}
+              className="ml-96 rounded shadow-lg p-5 w-1/3"
+            >
+              <div
+                class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+                role="alert"
+              >
+                <span class="font-medium">Enter Otp!</span> Please enter your
+                Otp.
+              </div>
+              <div className="grid">
+                <label>Enter Otp</label>
+                <Field type="text" name="Otp" className="rounded border py-2" />
+                <ErrorMessage
+                  name="Otp"
+                  component="div"
+                  className="text-red-600 mt-2"
+                />
+              </div>
+              <div className="mt-4 grid">
+                <button
+                  type="submit"
+
+                  className="bg-red-600 hover:bg-red-800 transition text-white rounded-md p-2"
+                >
+                  Check
+                </button>
+              </div>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }

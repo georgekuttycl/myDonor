@@ -5,10 +5,11 @@ const controllerDonation= require("./customerController/customerDonationControll
 const router = express.Router();
 
 router.post('/feedbackDetails', controller.feedbackDetails);
-router.get('/getall',controller.customersGetAll);
+router.post('/requestblood',controller.requestBlood);
 router.post("/donation",controllerDonation.customerAppointment)
-router.get('/update/customer/:id',controller.updateCustomer);
-router.post('/update/customer/:id',controller.updatingCustomer);
-router.post('/delete/customer/:id',controller.deletingCustomer);
+router.post("/donation/guest",controllerDonation.guestAppointment)
+ router.get('/update',controller.getUpdateCustomer);
+ router.post('/update',controller.postUpdateCustomer);
+
 
 module.exports = router;

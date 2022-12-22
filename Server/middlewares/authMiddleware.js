@@ -2,7 +2,9 @@ const ResponseModel = require('../utilities/responseModel');
 const tokenHandler = require('../utilities/tokenHandler');
 
 module.exports = (req, res, next) => {
-    if(!req.url.startsWith('/customer')){
+    if(!req.url.startsWith('/customer/') &&
+    !req.url.startsWith('/hospital/') &&
+    !req.url.startsWith('/user/')){
         return next();
     }
 
@@ -11,6 +13,7 @@ module.exports = (req, res, next) => {
     console.log(token);
 
     if(!token){
+        console.log("no token")
         return res.status(401)
             .json(new ResponseModel(null, null, ['Unauthorized.']));
     }

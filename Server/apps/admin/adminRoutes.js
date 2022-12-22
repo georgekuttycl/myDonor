@@ -15,7 +15,9 @@ router.get('/getallone', controller.hospitalsGetAllOne);
 //router of bloodstock details
 router.get('/getallindex', controller.bloodGroupGetAllIndex);
 //router of Appointment details
-router.get('/getallin', controller.AppointmentGetAllIn);
+router.get('/getallappointments', controller.getAllAppointments);
+//router of Approve appointments
+router.get('/approve-appointment/:id', controller.approveAppointment);
 //router of AppointmentGuest details
 router.get('/getallof', controller.AppointmentGuestGetAllOf);
 //router of request details
@@ -24,7 +26,9 @@ router.get('/requestGetAllInn', controller.requestGetAllInn);
 router.get('/paymentGetAllInnn', controller.paymentGetAllInnn);
 //router of feedback details
 router.get('/getalloff', controller.feedbackGetAllOff);
-//router of hospital approval 
-router.post('/hospitalapproval/:id', controller.hospitalApproval);
+//router of hospital approval
+router.get('/hospitalapproval/:id', controller.hospitalApproval);
+//router of hospital rejection
+router.get('/rejecthospital/:id', controller.rejectHospital);
 
 module.exports = router;

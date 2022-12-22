@@ -1,32 +1,34 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import MUIDataTable from "mui-datatables";
+import {getCustomerDetails} from "../../api/adminApi";
 
-class Donors extends Component {
-  render() {
-    const columns = ["Name", "Company", "City", "State"];
+function Donors() {
+  const [data, setData] = useState([{}])
 
-    const data = [
-      ["Joe James", "Test Corp", "Yonkers", "NY"],
-      ["John Walsh", "Test Corp", "Hartford", "CT"],
-      ["Bob Herm", "Test Corp", "Tampa", "FL"],
-      ["James Houston", "Test Corp", "Dallas", "TX"],
-    ];
+  const columns = ["name", "bloodGroup", "address", "date","weight"];
 
-    const options = {
-      filterType: "checkbox",
-    };
 
-    return (
+  const options = {
+    filterType: "checkbox",
+  };
+
+  useEffect(()=>{
+    getCustomerDetails().then(res=>{
+      console.log(res);
+      setData(res);
+    });
+  },[]);
+  return (
       <div className="App wrapper">
 
         <MUIDataTable
           title={"Donors List"}
+          // data={(data.name)}
           data={data}
           columns={columns}
           options={options}
         />
       </div>
     );
-  }
 }
 export default Donors;

@@ -1,26 +1,30 @@
 /**done by finu */
 
-const { Hospital, User, feedback } = require('../../../data/models');
+const { formatDate } = require('date-utils-2020');
+const { Hospital, User, Feedback,Request, Payment } = require('../../../data/models');
+const ResponseModel = require('../../../utilities/responseModel');
 
-/**all hospital list */
-module.exports.hospitalGetAll = async (req, res, next) => {
-    let data = await Hospital.findAll();
-    res.json(data);
-}
 
 /**update hospital */
 module.exports.updateHospital = async (req, res, next) => {
-    Hospital.findByPk(req.params.id)
-        .then(result => {
-            data: result
-        });
+    // console.log(req.user.id)
+    let data=await Hospital.findOne({
+        where:{userId:req.user.id},
+        include: {
+            model: User,
+            attributes:['email', 'password']
+        }
+    });
+    console.log(data)
+    res.json(data);
+
 }
 
 module.exports.updateHospitalPost = async (req, res, next) => {
-    const { name, licenseNumber, phone, address, pin, state} = req.body;
-    await Hospital.update(
+    const { fullName, licenseNumber, phone, address, pin, state,email,password} = req.body;
+    var count = await Hospital.update(
         {
-            name: name,
+            name: fullName,
             phone: phone,
             address: address,
             pin: pin,
@@ -28,9 +32,10 @@ module.exports.updateHospitalPost = async (req, res, next) => {
             licenseNumber: licenseNumber
         },
         {
-            where: {id:req.params.id}
+            where: {userId:req.user.id}
         }
-    )
+    );
+    return res.json(new ResponseModel(count[0], null, []))
 }
 
 /**delete hospital */
@@ -67,10 +72,10 @@ module.exports.feedbackHospital = async(req,res)=>{
 
     const {description, date} = req.body;
 
-    const feed = await feedback.create({
+    const feed = await Feedback.create({
         description: description,
         date: date,
-        userId:1
+        userId:req.user.id
     })
 
 };
@@ -80,3 +85,50 @@ module.exports.feedbackHospital = async(req,res)=>{
 //     req.session = null;
 //     res.redirect("/");
 // }
+
+module.exports.hospitalPayment = async(req,res)=>{
+    let data=await Request.findOne({
+        where: {id:req.user.id},
+        order: [ [ 'createdAt', 'DESC' ]],
+    });
+    console.log(data)
+    res.json(data);
+}
+
+//payment storage
+module.exports.hospitalPaymentStore = async(req,res)=>{
+    let data=await Request.findOne({
+        where: {userId:req.user.id},
+        order: [ [ 'createdAt', 'DESC' ]],
+    });;
+    console.log("asdfghjkl",data)
+    let quantity = data.quantity;
+    let amount = quantity * 200;
+    let store = await Payment.create({
+        amount: amount,
+        date:formatDate(new Date(), "yyyy/MM/dd"),
+        userId:req.user.id,
+        requestId:data.id
+    });
+    console.log(data)
+    res.json(data);
+    console.log(store)
+    //res.json(store);
+}
+
+//hospital invoice
+module.exports.hospitalInvoice = async(req,res)=>{
+    // let data=await Payment.findOne({
+    //     where: {userId:req.user.id},
+    //     order: [ [ 'createdAt', 'DESC' ]],
+    // });
+    // console.log(data)
+    // res.json(data);
+    let data=await Request.findOne({
+        where: {userId:req.user.id},
+        order: [ [ 'createdAt', 'DESC' ]],
+    });
+    console.log(data)
+    res.json(data);
+}
+

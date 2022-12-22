@@ -13,6 +13,7 @@ import {
   Button
 } from "reactstrap";
 
+
 function CustomerNavbar() {
     const [navbarColor, setNavbarColor] = React.useState("navbar-white");
     const [navbarCollapse, setNavbarCollapse] = React.useState(false);
@@ -43,6 +44,10 @@ function CustomerNavbar() {
         window.removeEventListener("scroll", updateNavbarColor);
       };
     });
+    function Logout(){
+      // localStorage.removeItem('token');
+
+    }
   return (
     <Navbar
     className={classnames("fixed-top", navbarColor)}
@@ -93,6 +98,14 @@ function CustomerNavbar() {
           </NavItem>
           <NavItem>
             <NavLink
+              href={"/customer/profile"}
+              className="hover-underline-animation"
+            >
+               Profile
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
             to={"/customer/appointment"}
             tag={Link}
              className="hover-underline-animation"
@@ -112,13 +125,16 @@ function CustomerNavbar() {
          <NavItem>
             <Button
               className="btn-round"
+              data-toggle="dropdown"
               style={{backgroundColor:'red',borderColor:'red'}}
               to={"/"}
               tag={Link}
+              onClick={Logout()}
             >
               <i class="fa-solid fa-right-from-bracket"></i> Logout
             </Button>
           </NavItem>
+
         </Nav>
       </Collapse>
     </Container>
