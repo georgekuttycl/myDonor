@@ -5,7 +5,7 @@ import HospitalNavbar from './HospitalNavbar'
 
 function HospitalLayout() {
   return (
-    <div  style={{height: '100vh',marginTop:'10em'}}>
+    <div  style={{height: '100vh'}}>
         <HospitalNavbar/>
         <div>
         <Outlet/>

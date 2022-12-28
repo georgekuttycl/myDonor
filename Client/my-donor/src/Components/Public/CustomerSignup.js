@@ -41,7 +41,7 @@ function CustomerSignup() {
                 {({ isSubmitting }) => (
                   <Form>
 
-      <div className="container mx-auto">
+      <div className="container mx-auto animate__animated animate__fadeInUp">
         <div className="flex justify-center px-6 my-12">
             <div className="w-full xl:w-3/4 lg:w-11/12 flex" style={{display: visible ? 'display' : 'none'}}>
             <div
@@ -119,10 +119,14 @@ function CustomerSignup() {
                           className="border rounded shadow-md w-full py-2"
                         >
                           <option defaultValue>Choose...</option>
+                          <option value="A+">A+</option>
+                          <option value="A-ve">A-ve</option>
                           <option value="O+ve">O+ve</option>
+                          <option value="B+ve">B+ve</option>
+                          <option value="B-ve">B-ve</option>
                           <option value="O-ve">O-ve</option>
                           <option value="AB+">AB+</option>
-                          <option value="Ab-ve">Ab-ve</option>
+                          <option value="AB-ve">AB-ve</option>
                         </Field>
                         <ErrorMessage
                           name="bloodGroup"
@@ -260,6 +264,7 @@ function CustomerSignup() {
                   const dataToSend = {...data, otp:otp};
                   var res = await checkOtp(dataToSend);
                   if(res.success){
+                    alert("Otp Verified")
                     navigate("/");
                   }
                 }}>

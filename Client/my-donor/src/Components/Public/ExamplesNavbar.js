@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
-import logo from "../../images/logo.png";
+import logo from "./../../assets/img/logo.png";
 import {
   Collapse,
   NavbarBrand,
@@ -93,7 +93,7 @@ function ExamplesNavbar() {
             </NavItem>
             <NavItem>
               <NavLink
-                href="/about"
+                to={"/about"}
                 tag={Link}
                 className="hover-underline-animation"
               >
@@ -119,8 +119,8 @@ function ExamplesNavbar() {
             <UncontrolledDropdown>
                 <DropdownToggle caret style={{backgroundColor:'red',borderColor:'red',borderRadius:'20px'}}> <i class="fa-solid fa-right-to-bracket"></i>sign up</DropdownToggle>
                 <DropdownMenu>
-                <Link to={"/customerSignup"} > <DropdownItem style={{textDecoration:'none'}}>Customer</DropdownItem></Link>
-                <Link to={"/hospitalSignup"} > <DropdownItem style={{textDecoration:'none'}}>Hospital</DropdownItem></Link>
+                <Link to={"/customerSignup"} style={{textDecoration:'none'}}> <DropdownItem >Customer</DropdownItem></Link>
+                <Link to={"/hospitalSignup"} style={{textDecoration:'none'}}> <DropdownItem >Hospital</DropdownItem></Link>
 
                 </DropdownMenu>
               </UncontrolledDropdown>

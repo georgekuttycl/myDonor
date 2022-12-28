@@ -24,7 +24,6 @@ function CustomerPayment() {
 
         }}
         onSubmit={async (values, { setSubmitting }) => {
-            console.log('Here');
             const res = await hospitalPaymentStore(values);
             console.log(res);
             if(res.data){

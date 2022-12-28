@@ -14,7 +14,6 @@ function Donors() {
 
   useEffect(()=>{
     getCustomerDetails().then(res=>{
-      console.log(res);
       setData(res);
     });
   },[]);

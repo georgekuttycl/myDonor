@@ -37,8 +37,14 @@ function CustomerAppointmentGuest() {
                 <label>Blood Group</label>
                 <Field as="select" name="bloodgroup" className='rounded border py-2'>
                     <option defaultChecked="Choose.."></option>
-                    <option value="O-ve">O-ve</option>
-                    <option value="O+ve">O+ve</option>
+                    <option value="A+">A+</option>
+                          <option value="A-ve">A-ve</option>
+                          <option value="O+ve">O+ve</option>
+                          <option value="B+ve">B+ve</option>
+                          <option value="B-ve">B-ve</option>
+                          <option value="O-ve">O-ve</option>
+                          <option value="AB+">AB+</option>
+                          <option value="AB-ve">AB-ve</option>
                 </Field>
                 {/* <select name="bloodgroup" className='rounded border py-2'>
 

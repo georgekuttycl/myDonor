@@ -20,7 +20,7 @@ module.exports.customerAppointment = async (req, res) => {
   });
   console.log(user);
   if (data == null) {
-    console.log("if not exixt donante");
+    console.log("if not exist then donate");
       //createGuest();
       // const { name, Bloodgroup, weight, adress, relation } = req.body;
       var result = await Appointment.create({

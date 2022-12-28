@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
-import logo from "../../images/logo.png";
+import logo from "./../../assets/img/logo.png";
 import {
   Collapse,
   NavbarBrand,
@@ -15,7 +15,7 @@ import {
 
 
 function CustomerNavbar() {
-    const [navbarColor, setNavbarColor] = React.useState("navbar-white");
+    const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
     const [navbarCollapse, setNavbarCollapse] = React.useState(false);
 
     const toggleNavbarCollapse = () => {
@@ -26,15 +26,15 @@ function CustomerNavbar() {
     React.useEffect(() => {
       const updateNavbarColor = () => {
         if (
-          document.documentElement.scrollTop > 299 ||
-          document.body.scrollTop > 299
+          document.documentElement.scrollTop > 150 ||
+          document.body.scrollTop > 150
         ) {
           setNavbarColor("navbar-white");
         } else if (
-          document.documentElement.scrollTop < 300 ||
-          document.body.scrollTop < 300
+          document.documentElement.scrollTop < 150 ||
+          document.body.scrollTop < 150
         ) {
-          setNavbarColor("navbar-white");
+          setNavbarColor("navbar-transparent");
         }
       };
 
@@ -46,7 +46,7 @@ function CustomerNavbar() {
     });
     function Logout(){
       // localStorage.removeItem('token');
-
+      // window.location.replace('/');
     }
   return (
     <Navbar
@@ -90,16 +90,18 @@ function CustomerNavbar() {
           </NavItem>
           <NavItem>
             <NavLink
-              href={"/customer/about"}
+              to={"/customer/about"}
               className="hover-underline-animation"
+              tag={Link}
             >
                About
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              href={"/customer/profile"}
+              to={"/customer/profile"}
               className="hover-underline-animation"
+              tag={Link}
             >
                Profile
             </NavLink>

@@ -3,6 +3,7 @@ import './HospitalProfile';
 import {useState,useEffect} from 'react';
  import { updateHospital } from '../../api/hospitalApi';
 import { Button } from 'reactstrap';
+import { Link } from 'react-router-dom';
 function HospitalProfile() {
   const [data, setData] = useState({});
   const [user, setUser] = useState({});
@@ -17,7 +18,12 @@ useEffect(() => {
 }, []);
 
   return (
+
      <div className="container emp-profile">
+         <br></br>
+         <br></br>
+         <br></br>
+         <br></br>
             <form method="post mt-6">
                 <div className="row">
                     <div className="col-md-4">
@@ -47,7 +53,7 @@ useEffect(() => {
                     </div>
                     <div className="col-md-2">
                         {/* <input type="submit" className="profile-edit-btn" name="btnAddMore" value="Edit Profile"/> */}
-                        <Button className="profile-edit-btn" href={"/hospital/update"}>Edit profile</Button>
+                        <Button className="profile-edit-btn text-white" to={"/hospital/update"} tag={Link}>Edit profile</Button>
                     </div>
                 </div>
                 <div className="row">
@@ -90,6 +96,14 @@ useEffect(() => {
                                             </div>
                                             <div className="col-md-6">
                                                 <p>{user.email}</p>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <label>Address</label>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <p>{data.address}</p>
                                             </div>
                                         </div>
                                         <div className="row">

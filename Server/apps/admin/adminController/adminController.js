@@ -45,6 +45,7 @@ module.exports.getAllAppointments = async (req, res, next) => {
             },
         ]
     });
+   console.log(data);
 
     var response = [];
     data.forEach(row=>{
@@ -56,6 +57,7 @@ module.exports.getAllAppointments = async (req, res, next) => {
             date: row.date,
             weight:row.User.Customer.weight
         })
+        //console.log(row.Customer.name);
     })
     res.json(response);
 }

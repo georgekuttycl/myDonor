@@ -32,12 +32,14 @@ function CustomerRequests() {
             <div className='grid'>
               <label>Choose Blood Group</label>
               <Field as="select"  name="group" className='rounded border py-2'>
-                <option defaultValue="">Choose</option>
-                <option Value="O+ve">O+ve</option>
-                <option Value="O-ve">O-ve</option>
-                <option Value="AB+ve">AB+ve</option>
-                <option Value="AB-ve">AB-ve</option>
-                <option Value="B+">B+</option>
+              <option value="A+">A+</option>
+                          <option value="A-ve">A-ve</option>
+                          <option value="O+ve">O+ve</option>
+                          <option value="B+ve">B+ve</option>
+                          <option value="B-ve">B-ve</option>
+                          <option value="O-ve">O-ve</option>
+                          <option value="AB+">AB+</option>
+                          <option value="AB-ve">AB-ve</option>
               </Field>
               <ErrorMessage name="group" component="div" className='text-red-600 mt-2'/>
             </div>

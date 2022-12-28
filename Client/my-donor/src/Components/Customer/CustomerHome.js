@@ -15,13 +15,13 @@ import {
   Col,
   Table,
 } from "reactstrap";
-import LandingPageHeader from ".././Public/LandingPageHeader";
+import CustomerLandingPageHeader from "./CustomerLandingPageHeader";
 import Feedback from "./Feedback";
 
 function CustomerHome() {
   return (
     <div>
-     <LandingPageHeader />
+     <CustomerLandingPageHeader />
       <div>
         <div className="flex flex-wrap justify-around p-4 mt-4" >
           <Container>

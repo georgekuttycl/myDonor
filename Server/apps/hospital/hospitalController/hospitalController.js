@@ -87,8 +87,9 @@ module.exports.feedbackHospital = async(req,res)=>{
 // }
 
 module.exports.hospitalPayment = async(req,res)=>{
+    console.log(req.user.id)
     let data=await Request.findOne({
-        where: {id:req.user.id},
+        where: {userId:req.user.id},
         order: [ [ 'createdAt', 'DESC' ]],
     });
     console.log(data)

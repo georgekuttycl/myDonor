@@ -33,7 +33,7 @@ module.exports.requestBlood = async (req,res)=>{
     }
 
     stocks.every(async stock=>{
-        console.log("hereeeeeeee");
+        console.log("here");
         await Appointment.update({
             status: 'sold'
         },
@@ -87,10 +87,10 @@ module.exports.getUpdateCustomer= async(req,res)=>{
 module.exports.postUpdateCustomer = async (req, res) => {
     console.log("here")
     console.log(req.body)
-    const { name, bloodGroup, phone, address, pin, state, weight, gender, age,email,password } = req.body;
-    await Customer.update(
+    const { fullName, bloodGroup, phone, address, pin, state, weight, gender, age,email,password } = req.body;
+   const customer =  await Customer.update(
         {
-            name: name,
+            name: fullName,
             bloodGroup: bloodGroup,
             phone: phone,
             address: address,
@@ -104,12 +104,13 @@ module.exports.postUpdateCustomer = async (req, res) => {
             where: { userId: req.user.id }
         }
     )
-    await User.update({
+  const user =  await User.update({
         email:email,
         password:password},
 
         {where:{id:req.user.id}
     })
+    return res.json(new ResponseModel(customer[0], null, []))
 }
 //for deleting all the customers by using the id. If Customer want to delete the registration
 // module.exports.deletingCustomer = async (req, res, next) => {

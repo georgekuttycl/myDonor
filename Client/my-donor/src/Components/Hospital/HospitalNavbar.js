@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
-import logo from "../../images/logo.png";
+import logo from "./../../assets/img/logo.png";
 import {
   Collapse,
   NavbarBrand,
@@ -14,7 +14,7 @@ import {
 } from "reactstrap";
 
 function HospitalNavbar() {
-    const [navbarColor, setNavbarColor] = React.useState("navbar-white");
+    const [navbarColor, setNavbarColor] = React.useState("navbar-transparent");
     const [navbarCollapse, setNavbarCollapse] = React.useState(false);
 
     const toggleNavbarCollapse = () => {
@@ -25,15 +25,15 @@ function HospitalNavbar() {
     React.useEffect(() => {
       const updateNavbarColor = () => {
         if (
-          document.documentElement.scrollTop > 299 ||
-          document.body.scrollTop > 299
+          document.documentElement.scrollTop > 150 ||
+          document.body.scrollTop > 150
         ) {
           setNavbarColor("navbar-white");
         } else if (
-          document.documentElement.scrollTop < 300 ||
-          document.body.scrollTop < 300
+          document.documentElement.scrollTop < 150 ||
+          document.body.scrollTop < 150
         ) {
-          setNavbarColor("navbar-white");
+          setNavbarColor("navbar-transparent");
         }
       };
 
@@ -89,7 +89,8 @@ function HospitalNavbar() {
           </NavItem>
           <NavItem>
             <NavLink
-              href={"/customer/about"}
+              to={"/customer/about"}
+              tag={Link}
               className="hover-underline-animation"
             >
                About
@@ -97,7 +98,8 @@ function HospitalNavbar() {
           </NavItem>
           <NavItem>
             <NavLink
-              href={"/hospital/profile"}
+              to={"/hospital/profile"}
+              tag={Link}
               className="hover-underline-animation"
             >
                Profile

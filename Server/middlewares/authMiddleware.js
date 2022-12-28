@@ -8,9 +8,10 @@ module.exports = (req, res, next) => {
         return next();
     }
 
+    console.log(req.headers)
     let token = req.headers['authorization'];
     token = token ? token.split(' ')[1] : null;
-    console.log(token);
+    console.log("Token: ", token);
 
     if(!token){
         console.log("no token")

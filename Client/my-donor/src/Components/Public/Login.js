@@ -8,6 +8,7 @@ import {login} from "../../api/accountsApi";
 import jwt_decode from "jwt-decode";
 
 
+
 function Login() {
 
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ function Login() {
   });
 
   return (
-    <div className='flex mb-5 justify-center mt-32'>
+    <div className='flex mb-5 justify-center mt-32 animate__animated animate__fadeInUp'>
       <div className='rounded shadow-lg p-5 w-1/3'>
         <h1 className='text-center text-red-600 text-3xl mb-3'>Login</h1>
         <Formik

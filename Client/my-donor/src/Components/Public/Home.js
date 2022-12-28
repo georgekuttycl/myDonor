@@ -11,8 +11,10 @@ import {
 } from "reactstrap";
 import LandingPageHeader from "./LandingPageHeader";
 import { Link } from "react-router-dom";
+import Testimonials from "./Testimonials/Testimonials";
 
 function Home() {
+
   return (
     <div>
     <LandingPageHeader/>
@@ -21,7 +23,7 @@ function Home() {
         <Row>
           <Col className="ml-auto mr-auto" md="8">
             <h2 className="title">myDonor</h2>
-            <h5 className="description">
+            <h5 className="description text">
               This web Application manages all the activities from blood
               collection. The main goal of this project is to monitor blood bank
               data, blood stock, and donor lists. This system gives a reliable
@@ -29,10 +31,12 @@ function Home() {
             </h5>
             <br />
             <Button
-              className="btn-round"
+              className="btn-round btn btn-danger"
+              // style={{backgroundColor:"#ff0000",borderColor:"#ff0000"}}
               color="info"
-              href="https://www.raster.in/blood-bank-management.php"
+              to="#"
               onClick={(e) => e.preventDefault()}
+              tag={Link}
             >
               See Details
             </Button>
@@ -44,48 +48,57 @@ function Home() {
           <Col md="4">
             <div className="info">
               <div className="icon icon-info">
-                <i className="nc-icon nc-album-2" />
+                <i className="nc-icon nc-album-2" style={{color:"#f5593d"}}/>
               </div>
               <div className="description">
                 <h4 className="info-title">Gallery</h4>
                 <p className="description">
                   See our Blood Donation Camp Photos
                 </p>
-                <Link to={"/gallery"} className="btn-link" color="info">
-                 Gallery
-                </Link>
+                <Button
+                className="btn-round btn btn-danger"
+                to={"/gallery"}
+                tag={Link}>
+                  Gallery
+                </Button>
               </div>
             </div>
           </Col>
           <Col md="4">
             <div className="info">
               <div className="icon icon-info">
-                <i className="nc-icon nc-bulb-63" />
+                <i className="nc-icon nc-bulb-63" style={{color:"#f5593d"}}/>
               </div>
               <div className="description">
                 <h4 className="info-title">Learn About Donation</h4>
                 <p>
                   Learn about Compatible Blood Type Donors
                 </p>
-                <Link to={"/learn"} className="btn-link" color="info">
-                 Learn
-                </Link>
+                <Button
+                className="btn-round btn btn-danger"
+                to={"/learn"}
+                tag={Link}>
+                  Learn
+                </Button>
               </div>
             </div>
           </Col>
           <Col md="4">
             <div className="info">
               <div className="icon icon-info">
-                <i className="nc-icon nc-sun-fog-29" />
+                <i className="nc-icon nc-sun-fog-29" style={{color:"#f5593d"}}/>
               </div>
               <div className="description">
                 <h4 className="info-title">Types of Donation</h4>
                 <p>
                   Learn about Diff Types of Donation
                 </p>
-                <Link to={"/types"} className="btn-link" color="info">
-                 Types
-                </Link>
+                <Button
+                className="btn-round btn btn-danger"
+                to={"/types"}
+                tag={Link}>
+                  Types
+                </Button>
               </div>
             </div>
           </Col>
@@ -102,7 +115,7 @@ function Home() {
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
                   <img
                     alt="..."
-                    src={require("../../assets/img/finu.jpg")}
+                    src={require("../../assets/img/george.jpg")}
                   />
                 </a>
               </div>
@@ -149,7 +162,7 @@ function Home() {
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
                   <img
                     alt="..."
-                    src={require("../../assets/img/finu.jpg")}
+                    src={require("../../assets/img/joseph.jpg")}
                   />
                 </a>
               </div>
@@ -334,6 +347,7 @@ function Home() {
         </Row>
       </Container>
     </div>
+    <Testimonials/>
   </div>
   );
 }

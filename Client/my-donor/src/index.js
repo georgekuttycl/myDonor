@@ -13,6 +13,7 @@ import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./assets/css/paper-kit.css";
 import "./assets/demo/demo.css";
+import 'animate.css';
 
 
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
@@ -57,6 +58,7 @@ const router = createBrowserRouter([
     { path: '/learn', element: <HomeLearn/> },
       { path: '/gallery', element: <HomeGallery/> },
       { path: '/types', element: <HomeTypes/> },
+      { path: '/about', element: <About/> },
   ]},
 
   { path: "/customerSignup", element:<div><ExamplesNavbar/><CustomerSignup/></div>},

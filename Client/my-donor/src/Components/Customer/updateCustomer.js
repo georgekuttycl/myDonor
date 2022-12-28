@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage,  } from "formik";
 import * as Yup from  "yup";
 import {useState,useEffect} from 'react';
  import { updateCustomerPost,updateCustomer } from "../../api/customerApi";
+ import { useNavigate } from "react-router-dom";
 
 
  const signUpSchema = Yup.object({
@@ -19,24 +20,33 @@ import {useState,useEffect} from 'react';
 })
 
 function CustomerUpdate() {
+  let navigate = useNavigate();
     const [data, setData] = useState({});
     const [user, setUser] = useState({});
     const [hasUpdate, setHasUpdate] = useState(false);
+    const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
       updateCustomer()
-      .then(result => {
+      .then((result) => {
           setData(result.data)
           setUser(result.data.User)
       });
   }, []);
+
+
+  const handleClick = event => {
+    // 👇️ toggle isActive state on click
+    setIsActive(current => !current);
+  };
 
   return (
     <div>
       <br></br>
       <br></br>
       <br></br>
-      <div className="container mx-auto">
+    <div  className={isActive ? 'container mx-auto animate__animated animate__fadeInLeft' : 'container mx-auto animate__animated animate__fadeOutRight'}>
+      {/* <div className="container mx-auto animate__animated animate__fadeInLeft"> */}
         <div className="flex justify-center px-6 my-12">
           <div className="w-full xl:w-3/4 lg:w-11/12 flex">
             <div
@@ -48,16 +58,29 @@ function CustomerUpdate() {
             <div className="w-full lg:w-7/12 bg-white p-5 rounded-lg lg:rounded-l-none">
               <h3 className="pt-4 text-2xl text-center">Update Your Profile!</h3>
               <Formik
-                initialValues={{fullName:data.name,phone:data.phone,state:data.state,weight:data.weight,age:data.age,pincode:data.pin,address:data.address,email:user.email,password:user.password}}
+                initialValues={{
+                  fullName:data.name,
+                  phone:data.phone,
+                  state:data.state,
+                  gender:data.gender,
+                  weight:data.weight,
+                  age:data.age,
+                  pincode:data.pin,
+                  address:data.address,
+                  email:user.email,
+                  password:user.password}}
                 validationSchema={signUpSchema}
                 enableReinitialize
                 onSubmit={(values, { setSubmitting }) => {
                     updateCustomerPost(values).then(data=>{
+                      console.log("asdas", data.data);
                       setHasUpdate(true);
                       setSubmitting(false);
-                      console.log("asdas", data);
+
                       if(data.data.success){
                         alert('Data updated successfully.');
+                        navigate("/customer/profile");
+
                       }
                     })
                   }}
@@ -77,15 +100,16 @@ function CustomerUpdate() {
                             <ErrorMessage name="phone" className="text-red-600" component="div"/>
                         </div>
                         <div className="col-span-1">
-                        <label>Category</label>
+                        <label>Gender</label>
                         <Field as="select"
-                          name="category"
+                          name="gender"
                           type="text"
                           className="border rounded shadow-md py-2"
+                          values={data.gender}
                         >
                           <option defaultChecked>Choose..</option>
-                          <option value="private">Private</option>
-                          <option value="government">Government</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
                         </Field>
                         <ErrorMessage
                           name="phone"
@@ -181,7 +205,7 @@ function CustomerUpdate() {
                         />
                       </div>
                         <div className="col-span-2 mt-4">
-                            <button type="submit" className="bg-red-600 text-white rounded-md p-2 w-full w-full hover:bg-red-800 transition">Update</button>
+                            <button type="submit" className="bg-red-600 text-white rounded-md p-2 w-full hover:bg-red-800 transition" onClick={handleClick}>Update</button>
                         </div>
                     </div>
                   </Form>

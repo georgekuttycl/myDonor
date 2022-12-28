@@ -2,6 +2,7 @@ import * as React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { updateHospitalPost, updateHospital } from "../../api/hospitalApi";
 
 const signUpSchema = Yup.object({
@@ -15,6 +16,7 @@ const signUpSchema = Yup.object({
 });
 
 function HospitalUpdate() {
+  let navigate = useNavigate();
   const [data, setData] = useState({});
   const [user, setUser] = useState({});
   const [hasUpdate, setHasUpdate] = useState(false);
@@ -23,6 +25,8 @@ function HospitalUpdate() {
     updateHospital().then((result) => {
       setData(result.data);
       setUser(result.data.User);
+
+
     });
   }, []);
 
@@ -59,9 +63,16 @@ function HospitalUpdate() {
                 enableReinitialize
                 onSubmit={(values, { setSubmitting }) => {
                   console.log(values);
-                  updateHospitalPost(values).then((data) =>
-                    console.log(console.log("signupdata data", data))
-                  );
+                  updateHospitalPost(values).then((data)=>{
+                    console.log(data)
+                    if(data.success){
+                      alert("Data Updated Successfully");
+                      navigate("/hospital/profile");
+                    }
+                    else{
+                      alert("Data Updation Failed");
+                    }
+                  });
                   console.log(values);
                   setHasUpdate(true);
                   setSubmitting(false);
@@ -106,6 +117,7 @@ function HospitalUpdate() {
                           name="category"
                           type="text"
                           className="border rounded shadow-md py-2"
+                          values={data.category}
                         >
                           <option defaultChecked>Choose..</option>
                           <option value="private">Private</option>

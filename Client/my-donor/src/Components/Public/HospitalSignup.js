@@ -3,12 +3,31 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {hospitalRegister} from '../../api/accountsApi';
 import { useNavigate } from "react-router-dom";
+import { checkOtp } from "../../api/accountsApi";
 
 function HospitalSignup() {
 
   let navigate = useNavigate();
   const [visible, setVisible] = React.useState(true);
   const [data, setData] = React.useState({});
+
+  function verifyOtp(){
+    const obj = {
+      email: data.email,
+      otp: document.getElementsByName('otp')[0].value
+    }
+    console.log(obj)
+    checkOtp(obj).then(res=>{
+      console.log(res)
+      if(!res.success){
+        alert('Invalid OTP');
+        return;
+      }
+      navigate("/")
+    });
+
+
+  }
   return (
     <div>
       <br></br>
@@ -16,7 +35,7 @@ function HospitalSignup() {
       <br></br>
 
       <Formik
-       initialValues={{ email: "", password: "", confirmPassword: "", name: "", address: "", phone: "", state: "", pincode: "", licenseNumber: "" }}
+       initialValues={{ email: "", password: "", confirmPassword: "", name: "", address: "", phone: "", state: "", pincode: "", licenseNumber: "", otp: "", category: "" }}
        validationSchema={Yup.object({
          name: Yup.string().min(2).max(25).required("Required"),
          email: Yup.string().email('please enter valid email').required("Required"),
@@ -37,7 +56,7 @@ function HospitalSignup() {
       >
         {({ isSubmitting }) => (
           <Form>
-            <div className="container mx-auto">
+            <div className="container mx-auto animate__animated animate__fadeInUp">
               <div className="flex justify-center px-6 my-12">
                 <div
                   className="w-full xl:w-3/4 lg:w-11/12 flex"
@@ -215,19 +234,18 @@ function HospitalSignup() {
               </div>
               <div className="grid">
                 <label>Enter Otp</label>
-                <Field type="text" name="Otp" className="rounded border py-2" />
+                <Field type="number" name="otp" className="rounded border py-2" />
                 <ErrorMessage
-                  name="Otp"
+                  name="otp"
                   component="div"
                   className="text-red-600 mt-2"
                 />
               </div>
               <div className="mt-4 grid">
                 <button
-                  type="submit"
-
+                  type="button"
                   className="bg-red-600 hover:bg-red-800 transition text-white rounded-md p-2"
-                >
+                  onClick={verifyOtp}>
                   Check
                 </button>
               </div>

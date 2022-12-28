@@ -12,7 +12,7 @@ import {
     MDBTableHead,
     MDBTableBody,
 } from "mdb-react-ui-kit";
-import logo from "../../images/logo.png";
+import logo from "./../../assets/img/logo.png";
 import jwt_decode from "jwt-decode";
 import {updateHospital,hospitalInvoice} from "../../api/hospitalApi";
 import JsPDF from 'jspdf';
@@ -44,13 +44,13 @@ function HospitalInvoice() {
     //toPdf
     const generatePDF = () => {
 
-        const report = new JsPDF('portrait','pt','a4');
+        const report = new JsPDF('landscape','pt','a3');
         report.html(document.querySelector('#report')).then(() => {
             report.save('report.pdf');
         });
     }
     return (
-        <div className="max-h-screen max-w-screen" id="report">
+        <div className="max-h-screen max-w-screen" >
             <div className="w-75 p-3 ml-40 mt-16">
             <MDBContainer className="py-5">
                 <MDBCard className="p-4 border border-danger">
@@ -61,32 +61,20 @@ function HospitalInvoice() {
 
                                 </MDBCol>
                                 <MDBCol xl="3" className="float-end">
-                                    <MDBBtn
-                                        color="light"
-                                        ripple="dark"
-                                        className="text-capitalize border-0"
-                                    >
-                                        <MDBIcon fas icon="print" color="primary" className="me-1" />
-                                        Print
-                                    </MDBBtn>
                                     <Button
                                         color="light"
                                         ripple="dark"
                                         className="text-capitalize border-0 ms-2"
+                                        onClick={generatePDF}
                                     >
-                                        <Button
-                                            far
-                                            icon="file-pdf"
-                                            color="danger"
-                                            className="me-1"
-                                            onClick={generatePDF}
-                                        />
-                                        Export
+                                        <i class="fa-solid fa-download"></i>
+                                       &nbsp; Download PDF
                                     </Button>
                                     <hr />
                                 </MDBCol>
                             </MDBRow>
                         </MDBContainer>
+                        <div id="report">
                         <MDBContainer>
                             <MDBCol md="12" className="ml-80 ">
                                 <img src={logo} height={100} width={140}/>
@@ -168,9 +156,11 @@ function HospitalInvoice() {
                                 </MDBBtn>
                             </MDBCol>
                         </MDBRow>
+                        </div>
                     </MDBCardBody>
                 </MDBCard>
             </MDBContainer>
+
         </div>
         </div>
     );

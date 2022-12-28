@@ -5,7 +5,7 @@ import CustomerNavbar from './CustomerNavbar'
 
 function CustomerLayout() {
   return (
-    <div  style={{height: '100vh',marginTop:'10em'}}>
+    <div  style={{height: '100vh'}}>
         <CustomerNavbar/>
         <div>
         <Outlet/>

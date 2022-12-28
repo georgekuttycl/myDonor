@@ -2,6 +2,7 @@ import { Formik, Field, ErrorMessage,Form  } from "formik";
 
 import {React,useState,useEffect} from "react";
 import { feedbackCustomerPost } from "../../api/customerApi";
+import { useNavigate } from "react-router-dom";
 
 import {
   Button,
@@ -13,14 +14,28 @@ import {
 function Feedback() {
     const [hasUpdate, setHasUpdate] = useState(false);
   useEffect(() => {}, []);
+  let navigate = useNavigate();
   return (
     <div>
          <Formik
                 initialValues={{description:"",name:"",date:""}}
                 onSubmit={ (values, { setSubmitting }) => {
 
-                    feedbackCustomerPost(values).then(data=>console.log(console.log("signupdata data",data)));
+                    feedbackCustomerPost(values).then((data)=>{
+                      // console.log(console.log("signupdata data",data))
+
+                    if(data.success){
+                      alert("Feedback Submitted");
+                      navigate("/customer");
+                    }
+                    else{
+                      alert("Feedback Submission Failed");
+                    }
+
+                  }
+                    );
                     console.log(values)
+
                      setHasUpdate(true);
                       setSubmitting(false);
 

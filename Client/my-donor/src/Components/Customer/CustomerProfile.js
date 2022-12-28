@@ -2,7 +2,7 @@ import React from 'react';
 import './CustomerProfile.css';
 import {useState,useEffect} from 'react';
 import { Button } from 'reactstrap';
-
+import { Link } from 'react-router-dom';
 import { updateCustomer } from '../../api/customerApi';
 
 function CustomerProfile() {
@@ -20,7 +20,8 @@ useEffect(() => {
 }, []);
 
   return (
-     <div className="container emp-profile">
+     <div className="container emp-profile animate__animated animate__fadeIn">
+        <br></br> <br></br> <br></br><br></br>
             <form method="post mt-6">
                 <div className="row">
                     <div className="col-md-4">
@@ -50,7 +51,7 @@ useEffect(() => {
                     </div>
                     <div className="col-md-2">
                         {/* <input type="submit" className="profile-edit-btn" name="btnAddMore" value="Edit Profile"/> */}
-                        <Button className="profile-edit-btn" href={"/customer/update"}>Edit profile</Button>
+                        <Button className="profile-edit-btn text-white" tag={Link} to={"/customer/update"}>Edit profile</Button>
                     </div>
                 </div>
                 <div className="row">

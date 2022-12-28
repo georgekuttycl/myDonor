@@ -24,7 +24,6 @@ function CustomerAppointment() {
           })}
           onSubmit={async (values, { setSubmitting }) => {
             var res = await customerAppointment(values);
-            console.log(res);
             if(!res.data.success){
               alert(res.data.errors[0]);
             }

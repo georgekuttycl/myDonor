@@ -4,7 +4,6 @@ import axios from "./requestBase";
 // update service for hospital.
 const updateHospital =async (data)=>{
     var response=await axios.get('/user/updatehospital');
-    console.log(response)
     return response;
 
 }

@@ -24,13 +24,13 @@ function CustomerDonation() {
   useEffect(() => {
     getAllAppointments().then((data) => {
       setData(data);
+      console.log(data);
     });
   }, []);
 
   async function markCollected(e){
     let id = e.target.getAttribute('data-id');
     var res = await approveAppointment(id);
-    console.log(res);
     e.target.remove();
   }
 

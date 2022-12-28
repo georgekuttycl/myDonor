@@ -8,14 +8,11 @@ import axios from "./requestBase";
 
 const updateCustomer =async (data)=>{
     var response=await axios.get('/customer/update');
-    console.log(response)
     return response;
 }
 const updateCustomerPost= async(data)=>{
     var response=await axios.post('/customer/update', data);
-    console.log(response)
     return response;
-
 }
 
 //customer donation

@@ -15,14 +15,15 @@ import {
   Col,
   Table,
 } from "reactstrap";
-import LandingPageHeader from ".././Public/LandingPageHeader";
+
 import HospitalFeedback from './HospitalFeedback';
+import HospitalLandingPageHeader from './HospitalLandingPageHeader';
 function HospitalHome() {
   return (
     <div>
- <LandingPageHeader />
+ <HospitalLandingPageHeader />
       <div>
-        <div className="flex flex-wrap justify-around p-4 mt-4" >
+        <div className="flex flex-wrap justify-around p-4" >
           <Container>
             <Row>
               <Col className="w-1/5">

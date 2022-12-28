@@ -23,9 +23,7 @@ function HospitalPayment() {
 
         }}
         onSubmit={async (values, { setSubmitting }) => {
-            console.log('Here');
             const res = await hospitalPaymentStore(values);
-            console.log(res);
             if(res.data){
               alert("Payed successfully.");
               navigate('/hospital/invoice');

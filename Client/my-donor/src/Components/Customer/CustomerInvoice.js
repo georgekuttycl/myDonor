@@ -12,7 +12,7 @@ import {
     MDBTableHead,
     MDBTableBody,
 } from "mdb-react-ui-kit";
-import logo from "../../images/logo.png";
+import logo from "./../../assets/img/logo.png";
 import jwt_decode from "jwt-decode";
 import {updateCustomer,hospitalInvoice} from "../../api/customerApi";
 import JsPDF from 'jspdf';
@@ -26,12 +26,10 @@ function CustomerInvoice() {
         var token = localStorage.getItem('token');
         var decodedToken = jwt_decode(token);
         var res = updateCustomer(decodedToken.id).then(res=>{
-            console.log("Here", res.data);
             setProfile(res.data)
         });
         hospitalInvoice().then(res=>{
             setInvoice(res.data)
-            console.log(amount);
         })
 
 
@@ -42,7 +40,7 @@ function CustomerInvoice() {
     //toPdf
     const generatePDF = () => {
 
-        const report = new JsPDF('portrait','pt','a4');
+        const report = new JsPDF('landscape','pt','a3');
         report.html(document.querySelector('#report')).then(() => {
             report.save('report.pdf');
         });
@@ -59,14 +57,6 @@ function CustomerInvoice() {
 
                                 </MDBCol>
                                 <MDBCol xl="3" className="float-end">
-                                    <MDBBtn
-                                        color="light"
-                                        ripple="dark"
-                                        className="text-capitalize border-0"
-                                    >
-                                        <MDBIcon fas icon="print" color="primary" className="me-1" />
-                                        Print
-                                    </MDBBtn>
                                     <Button
                                             far
                                             icon="file-pdf"

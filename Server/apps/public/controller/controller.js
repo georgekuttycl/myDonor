@@ -1,9 +1,10 @@
-const { User, Hospital, Customer } = require("../../../data/models");
+const { User, Hospital, Customer,Feedback } = require("../../../data/models");
 const { json } = require("body-parser");
 const { QueryTypes } = require("sequelize");
 const ResponseModel = require("../../../utilities/responseModel");
 const tokenHandler = require("../../../utilities/tokenHandler");
 const otp_verify = require("otp-verify"); //otp-verifier import
+const { PasswordHasher } = require("../../../utilities/passwordHashing");
 //
 module.exports.customerRegistration = async (req, res) => {
    console.log("customer body",req.body);
@@ -46,7 +47,7 @@ module.exports.customerRegistration = async (req, res) => {
       try {
         const user = await User.create({
           email: email,
-          password: password,
+          password: new PasswordHasher().hashPassword(password),
           role: "customer",
           otp: otp,
         });
@@ -89,13 +90,14 @@ module.exports.checkOtp = async (req, res) => {
     },
   });
 
+
   if (!user) {
-    return json(new ResponseModel(null, null, ["Invalid OPT"]));
+    return res.json(new ResponseModel(null, null, ["Invalid OPT"]));
   }
   user.otp = 0;
   await user.save();
 
-  return json(new ResponseModel());
+  return res.json(new ResponseModel());
 };
 
 // hospital registrtion table insertion
@@ -138,7 +140,7 @@ module.exports.hospitalRegistration = async (req, res) => {
      try {
       const user = await User.create({
         email: email,
-        password: password,
+        password: new PasswordHasher().hashPassword(password),
         role: "hospital",
         otp:otp
       });
@@ -176,14 +178,19 @@ module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   //checking database.
   let loggedUser = await User.findOne({
-    where: { email: email, password: password},
+    where: { email: email},
     include: Hospital
   });
+  // Checking password
   if (!loggedUser) {
     return res.json(new ResponseModel(null, null, ["Invalid credentials."]));
   }
   console.log(loggedUser);
 
+  var result = new PasswordHasher().checkPassword(password, loggedUser.dataValues.password);
+  if(!result){
+    return res.json(new ResponseModel(null, null, ["Invalid password."]));
+  }
   if(loggedUser.dataValues.role == 'hospital'){
     if(!loggedUser.Hospital.status == 1){
     return res.json(new ResponseModel(null, null, ["Hospital is not approved."]));
@@ -238,3 +245,26 @@ module.exports.forgotPassword = async (req, res) => {
     { where: { email: email } }
   );
 };
+
+
+//get feedback details
+module.exports.getFeedbackDetails= async(req,res)=>{
+  try{
+    const feedback = await Feedback.findAll(
+      {
+        include:{
+          model:User,
+        include:[Customer, Hospital]
+        }
+      }
+    );
+    res.json(feedback);
+    console.log(feedback);
+  }
+  catch(err){
+    console.log(err)
+    return res.json(
+      new ResponseModel(null, null, ["Something went wrong !"])
+    );
+  }
+}
