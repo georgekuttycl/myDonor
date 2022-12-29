@@ -13,6 +13,14 @@ function Login() {
 
   const navigate = useNavigate();
 
+  const [passwordShown, setPasswordShown] = useState(false);
+  const [isActive, setActive] = useState(false);
+  const togglePassword = () => {
+    // When the handler is invoked
+    // inverse the boolean state of passwordShown
+    setPasswordShown(!passwordShown);
+    setActive(!passwordShown);
+  };
   async function checkLogin(values){
     var res = await login(values);
     if(!res.success){
@@ -41,9 +49,9 @@ function Login() {
   });
 
   return (
-    <div className='flex mb-5 justify-center mt-32 animate__animated animate__fadeInUp'>
-      <div className='rounded shadow-lg p-5 w-1/3'>
-        <h1 className='text-center text-red-600 text-3xl mb-3'>Login</h1>
+    <div className='flex  mb-5 justify-center mt-32 animate__animated animate__fadeInUp'>
+      <div className='rounded shadow-lg p-5 w-1/3 mt-10'>
+        <h1 className='text-center text-red-600 text-3xl font-bold mb-3'>Login</h1>
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={validationSchema}
@@ -58,7 +66,10 @@ function Login() {
               </div>
               <div className='grid'>
                 <label>Password</label>
-                <Field type="password" name="password" className='rounded border py-2'/>
+                <div className='flex'>
+                <Field  name="password" className='rounded border py-2' type={passwordShown ? "text" : "password"}/>&nbsp;&nbsp;
+               <a className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded' onClick={togglePassword}><i className={isActive ? 'fa-solid fa-eye':'fa-solid fa-eye-slash'} style={{color:'white'}} ></i></a>
+                </div>
                 <ErrorMessage name="password" component="div" className='text-red-600 mt-2'/>
               </div>
               <div className='mt-4 grid'>

@@ -47,10 +47,14 @@ import HospitalInvoice from './Components/Hospital/HospitalInvoice';
 import HospitalUpdate from './Components/Hospital/HospitalUpdate';
 import CustomerDonation from './Components/Admin/CustomerDonation';
 import HospitalRequests from './Components/Hospital/HospitalRequest';
+import PageNotFound from './Components/Public/404/404';
+import ServerError from './Components/Public/500';
 
 
 
 const router = createBrowserRouter([
+  {path:"*",element:<div><PageNotFound/></div>},
+  {path:"/500",element:<div><ServerError/></div>},
   { path: "/", element:<div><LandingPage/></div>,children:[
     {path: '/', element: <Home/>},
     {path: '/login', element: <Login/>},

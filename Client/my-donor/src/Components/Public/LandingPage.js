@@ -15,7 +15,7 @@ function LandingPage() {
 		};
 	});
 	return (
-		<div style={{backgroundColor: '#fafafa'}}>
+		<div >
 		<ExamplesNavbar />
 		<div className="main">
 			<Outlet/>

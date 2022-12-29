@@ -256,7 +256,7 @@ function Home() {
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
                   <img
                     alt="..."
-                    src={require("../../assets/img/finu.jpg")}
+                    src={require("../../assets/img/varsha.jpg")}
                   />
                 </a>
               </div>
@@ -303,7 +303,7 @@ function Home() {
                 <a href="#pablo" onClick={(e) => e.preventDefault()}>
                   <img
                     alt="..."
-                    src={require("../../assets/img/finu.jpg")}
+                    src={require("../../assets/img/joyal.JPG")}
                   />
                 </a>
               </div>
