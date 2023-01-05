@@ -24,13 +24,13 @@ function HospitalList() {
     }
     const getRow = (result,index)=>{
         return (
-            <tr key={index}>
+            <tr key={index} className="border border-solid">
                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{result.name}</td>
                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{result.address}</td>
                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{result.licenseNumber}</td>
                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">{result.category}</td>
                  <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                 {result.status === '0' ? <button type="button" class="border border-green-500 be-green-600 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-blue-600 focus:outline-none focus:shadow-outline" data-id={result.id} onClick={approveHospitalEntry}>Approve</button> : <></>}
+                 {result.status === '0' ? <button type="button" class="border text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-blue-600 focus:outline-none focus:shadow-outline" data-id={result.id} onClick={approveHospitalEntry} style={{backgroundColor:'green'}}>Approve</button> : <></>}
                  {result.status === '1' ? <button type="button" class="border border-red-500 bg-red-500 text-white rounded-md px-4 py-2 m-2 transition duration-500 ease select-none hover:bg-green-600 focus:outline-none focus:shadow-outline" data-id={result.id} onClick={rejectHospitalEntry}>Reject</button> : <></>}
                  </td>
             </tr>
@@ -38,15 +38,8 @@ function HospitalList() {
     }
   return (
       <div>
-        <section class="py-1 bg-blueGray-50">
-<div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
-    <div class="rounded-t mb-0 px-4 py-3 border-0">
-      <div class="flex flex-wrap items-center">
-        <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-          <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">See all</button>
-        </div>
-      </div>
-    </div>
+        <section class="py-1 bg-blueGray-50 ml-6 animate__animated animate__zoomIn">
+<div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto">
 
     <div class="block w-full overflow-x-auto">
       <table class="items-center bg-transparent w-full border-collapse ">

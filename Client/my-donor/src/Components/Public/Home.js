@@ -12,6 +12,7 @@ import {
 import LandingPageHeader from "./LandingPageHeader";
 import { Link } from "react-router-dom";
 import Testimonials from "./Testimonials/Testimonials";
+import {AnimatedOnScroll} from "react-animated-css-onscroll";
 
 function Home() {
 
@@ -19,7 +20,9 @@ function Home() {
     <div>
     <LandingPageHeader/>
     <div className="section text-center">
+
     <Container>
+    <AnimatedOnScroll animationIn="slideInUp">
         <Row>
           <Col className="ml-auto mr-auto" md="8">
             <h2 className="title">myDonor</h2>
@@ -42,8 +45,10 @@ function Home() {
             </Button>
           </Col>
         </Row>
+        </AnimatedOnScroll>
         <br />
         <br />
+        <AnimatedOnScroll animationIn="slideInUp">
         <Row>
           <Col md="4">
             <div className="info">
@@ -103,11 +108,15 @@ function Home() {
             </div>
           </Col>
         </Row>
+        </AnimatedOnScroll>
       </Container>
+
     </div>
+
     <div className="section section-dark text-center">
       <Container>
         <h2 className="title">Let's talk about us</h2>
+        <AnimatedOnScroll animationIn="fadeInUp">
         <Row>
           <Col md="3">
             <Card className="card-profile card-plain">
@@ -156,6 +165,7 @@ function Home() {
               </CardFooter>
             </Card>
           </Col>
+
           <Col md="2">
             <Card className="card-profile card-plain">
               <div className="card-avatar">
@@ -345,9 +355,12 @@ function Home() {
             </Card>
           </Col>
         </Row>
+        </AnimatedOnScroll>
       </Container>
     </div>
+    <AnimatedOnScroll animationIn="fadeInUp">
     <Testimonials/>
+    </AnimatedOnScroll>
   </div>
   );
 }

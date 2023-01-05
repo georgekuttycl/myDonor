@@ -19,7 +19,7 @@ function Donors() {
     });
   },[]);
   return (
-      <div className="App wrapper">
+      <div className="mr-2 ml-12 animate__animated animate__zoomIn">
 
         <MUIDataTable
           title={<h3>Donors List</h3>}

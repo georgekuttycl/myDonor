@@ -19,7 +19,7 @@ function HospitalPurchaseHistory() {
       });
     },[]);
   return (
-    <div className="w-11/12 ml-10">
+    <div className="mr-2 ml-12 animate__animated animate__zoomIn">
     <MUIDataTable
       title={<h3>Hospital Purchase History</h3>}
       data={data}

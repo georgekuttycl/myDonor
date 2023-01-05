@@ -42,7 +42,7 @@ function CustomerDonation() {
         <td>{item.address}</td>
         <td>{item.bloodGroup}</td>
         <td>
-          {item.status === "collected"?<span>Collected</span>:<button className="bg-indigo-600 text-white" data-id={item.id} onClick={markCollected}>Mark Collected</button>}
+          {item.status === "collected"?<span className="border border-red-500 bg-red-500 text-white rounded-md px-2 py-2 transition duration-500 ease select-none focus:outline-none focus:shadow-outline">Collected</span>:<button className="border border-red-500 bg-green-500 text-white rounded-md px-2 py-2 transition duration-500 ease select-none hover:bg-red-600 focus:outline-none focus:shadow-outline" data-id={item.id} onClick={markCollected}>Mark Collected</button>}
         </td>
       </tr>
     );
@@ -51,7 +51,7 @@ function CustomerDonation() {
     <div>
       <Row>
         <Col>
-          <div className="relative flex flex-col min-w-0 break-words bg-white rounded mb-4 xl:mb-0 shadow-lg">
+          <div className="relative flex flex-col bg-white rounded mb-4 xl:mb-0 shadow-lg mr-2 ml-8 animate__animated animate__zoomIn" style={{marginLeft:'3em'}}>
             <Table striped style={{ backgroundColor: "white" }}>
               <thead>
                 <tr style={{ backgroundColor: "purple" }}>

@@ -49,6 +49,7 @@ import CustomerDonation from './Components/Admin/CustomerDonation';
 import HospitalRequests from './Components/Hospital/HospitalRequest';
 import PageNotFound from './Components/Public/404/404';
 import ServerError from './Components/Public/500';
+import AdminLayout2 from './Components/Admin/AdminLayout2';
 
 
 
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
   { path: "/customerSignup", element:<div><ExamplesNavbar/><CustomerSignup/></div>},
   { path: "/HospitalSignup", element:<div><ExamplesNavbar/><HospitalSignup/></div>},
   { path: "/forgot-password", element:<div><ExamplesNavbar/><HospitalSignup/></div>},
-  {path: '/admin', element: <AdminLayout/>, children:[
+  {path: '/admin', element: <AdminLayout2/>, children:[
     {path: '/admin', element: <Dashboard/>},
     {path: '/admin/donors', element: <Donors/>},
     {path: '/admin/hospital', element: <HospitalList/>},
