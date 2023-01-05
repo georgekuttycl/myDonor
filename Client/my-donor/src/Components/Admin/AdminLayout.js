@@ -1,8 +1,25 @@
-import {Link, Outlet, useNavigate} from "react-router-dom"
+import {Link, Outlet, useNavigate, Navigate} from "react-router-dom"
 import logo from './../../assets/img/logo.png';
 import Navbar from "./Navbar";
+import { useState, useEffect } from "react";
+import jwt_decode from "jwt-decode";
 
 function AdminLayout() {
+    const [isAdmin, setIsAdmin] = useState(true);
+
+    useEffect(()=>{
+        const token = localStorage.getItem('token');
+        if(!token){
+            setIsAdmin(false);
+            return;
+        }
+
+        var decodedToken = jwt_decode(token);
+        console.log(decodedToken);
+        if(decodedToken.role !== 'admin'){
+            setIsAdmin(false);
+        }
+    }, [])
     // const navigate = useNavigate();
     function logout(){
         localStorage.removeItem('token');
@@ -19,7 +36,7 @@ function AdminLayout() {
         <div>
 
             <div className="flex flex-no-wrap">
-                <div style={{minHeight: '716px'}} className="w-64 absolute sm:relative bg-gray-800 shadow md:h-full flex-col justify-between hidden sm:flex">
+                <div style={{minHeight: '100em'}} className="w-64 absolute sm:relative bg-gray-800 shadow md:h-full flex-col justify-between hidden sm:flex">
                     <div className="px-8">
                         <div className="h-16 w-full flex items-center">
                            {/* <img src={logo}></img> */}
@@ -250,7 +267,7 @@ function AdminLayout() {
                 </div>
                 <div className="container mx-auto py-10 h-64 md:w-4/5 w-11/12 px-6">
                     <div className="w-full h-full rounded border-dashed border-2 border-gray-300">
-                        <Outlet></Outlet>
+                        {isAdmin? <Outlet/>: <Navigate to={'/'}/>}
                     </div>
                 </div>
             </div>

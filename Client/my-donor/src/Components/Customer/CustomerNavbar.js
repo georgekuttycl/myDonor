@@ -45,8 +45,8 @@ function CustomerNavbar() {
       };
     });
     function Logout(){
-      // localStorage.removeItem('token');
-      // window.location.replace('/');
+      localStorage.removeItem('token');
+      return window.location.replace('/');
     }
   return (
     <Navbar
@@ -131,7 +131,7 @@ function CustomerNavbar() {
               style={{backgroundColor:'red',borderColor:'red'}}
               to={"/"}
               tag={Link}
-              onClick={Logout()}
+              onClick={Logout}
             >
               <i class="fa-solid fa-right-from-bracket"></i> Logout
             </Button>

@@ -23,4 +23,29 @@ const getCustomerDetails = async (data)=>{
     return response.data;
 }
 
-export {hospital, approveHospital, rejectHospital,getCustomerDetails}
+
+const adminStats = async (data)=>{
+    var response = await axios.get('/admin/adminStats/', data);
+    return response.data;
+}
+
+const hospitalPurchaseHistory = async (data)=>{
+    var response = await axios.get('/admin/hospitalPurchaseHistory/', data);
+    return response.data;
+}
+
+const customerPurchaseHistory = async (data)=>{
+    var response = await axios.get('/admin/customerPurchaseHistory/', data);
+    return response.data;
+}
+
+
+export {
+    hospital,
+    approveHospital,
+    rejectHospital,
+    getCustomerDetails,
+    adminStats,
+    hospitalPurchaseHistory,
+    customerPurchaseHistory
+}

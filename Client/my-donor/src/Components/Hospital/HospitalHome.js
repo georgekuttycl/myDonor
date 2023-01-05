@@ -18,7 +18,34 @@ import {
 
 import HospitalFeedback from './HospitalFeedback';
 import HospitalLandingPageHeader from './HospitalLandingPageHeader';
+import { hospitalName,hospitalStats } from "../../api/hospitalApi";
+import { useState,useEffect } from "react";
+
 function HospitalHome() {
+  const [stat, setStat] = useState({
+    purchaseHistory: []
+  });
+
+  useEffect(() => {
+   hospitalStats().then((data)=>{
+    console.log(data);
+    setStat(data);
+   });
+
+  }, []);
+
+  const getRow = (data,index)=>{
+    console.log(data)
+    return (
+        <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{data.group}</td>
+                        <td>{data.quantity}</td>
+                        <td>{data.date}</td>
+        </tr>
+    )
+}
+
   return (
     <div>
  <HospitalLandingPageHeader />
@@ -36,7 +63,7 @@ function HospitalHome() {
                           Hospitals
                         </h5>
                         <span className="font-semibold text-xl text-blueGray-700">
-                          334
+                          {stat.hospitalCount}
                         </span>
                       </div>
                       <div className="relative w-auto pl-4 flex-initial">
@@ -64,7 +91,7 @@ function HospitalHome() {
                           Donors
                         </h5>
                         <span className="font-semibold text-xl text-blueGray-700">
-                          2,999
+                          {stat.customerCount}
                         </span>
                       </div>
                       <div className="relative w-auto pl-4 flex-initial">
@@ -89,10 +116,10 @@ function HospitalHome() {
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
                         <h5 className="text-blueGray-400 uppercase font-bold text-xs">
 
-                          Hospitals
+                          Stock Available
                         </h5>
                         <span className="font-semibold text-xl text-blueGray-700">
-                          334
+                          {stat.stockCount}
                         </span>
                       </div>
                       <div className="relative w-auto pl-4 flex-initial">
@@ -116,10 +143,10 @@ function HospitalHome() {
                     <div className="flex flex-wrap">
                       <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
                         <h5 className="text-blueGray-400 uppercase font-bold text-xs">
-                          Donors
+                          Purchase
                         </h5>
                         <span className="font-semibold text-xl text-blueGray-700">
-                          2,999
+                          {stat.purchaseNumber}
                         </span>
                       </div>
                       <div className="relative w-auto pl-4 flex-initial">
@@ -144,52 +171,17 @@ function HospitalHome() {
                   <Table striped style={{ backgroundColor: 'white' }}>
                     <thead>
                       <tr style={{ backgroundColor: 'purple' }}>
-                        <th colSpan={4}>Table</th>
+                        <th colSpan={4} style={{color:'white'}}>Purchase History</th>
                       </tr>
                       <tr>
                         <th>SL No.</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
+                        <th>Bloodgroup</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
-                      <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                      </tr>
-                      <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                      </tr>
+                    {stat.purchaseHistory.map(getRow)}
                     </tbody>
                   </Table>
                 </div>

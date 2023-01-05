@@ -1,10 +1,10 @@
-const {Feedback,Bloodgroup,Customer,Request,User, Appointment} = require('../../../data/models');
+const {Feedback,Bloodgroup,Customer,Request,User, Appointment, Hospital} = require('../../../data/models');
 const { json } = require("body-parser");
-const { QueryTypes } = require('sequelize');
+const { QueryTypes, Op } = require('sequelize');
 const { formatDate } = require("date-utils-2020");
 const ResponseModel = require("../../../utilities/responseModel");
 
-//customer sending feedback(varsha)
+//customer sending feedback
 module.exports.feedbackDetails = async(req,res)=>{
     console.log("body of feedback",req.body);
     const {description} = req.body;
@@ -17,7 +17,7 @@ module.exports.feedbackDetails = async(req,res)=>{
     })
 }
 
-//customer requesting blood(joseph)
+//customer requesting blood
 module.exports.requestBlood = async (req,res)=>{
     const {quantity, group} = req.body;
     let stocks = await Appointment.findAll({
@@ -54,23 +54,6 @@ module.exports.requestBlood = async (req,res)=>{
     return res.json(new ResponseModel(request, null));
  }
 
-
-//Code of Joyal Johnson
-
-// const { Customer, User } = require("../../../data/models")
-
-// //for getting all the customers after the registration
-// module.exports.customersGetAll = async (req, res, next) => {
-//     let data = await Customer.findAll();
-//     res.json(data);
-// }
-// for getting the update update page
-// module.exports.updateCustomer = async (req, res, next) => {
-//     Customer.findByPk(req.params.id)
-//         .then(result => {
-//             data: result
-//         });
-// }
 
 module.exports.getUpdateCustomer= async(req,res)=>{
     let data= await Customer.findOne({
@@ -112,15 +95,71 @@ module.exports.postUpdateCustomer = async (req, res) => {
     })
     return res.json(new ResponseModel(customer[0], null, []))
 }
-//for deleting all the customers by using the id. If Customer want to delete the registration
-// module.exports.deletingCustomer = async (req, res, next) => {
-//     let id = req.params.id;
-//     let customer = await Customer.findByPk(id);
-//     if (customer != null) {
-//         await Customer.destroy({
-//             where: {
-//                 id: req.user.id
-//             }
-//         });
-//     }
-// }
+
+
+//customer details on home page
+module.exports.customerDetails = async(req,res)=>{
+    let customerName = await Customer.findOne({
+        where:{
+            userId:req.user.id
+        }
+    })
+
+    let hospitalCount = await User.count({
+        where:{
+            role:'hospital',
+        }
+    })
+
+    let customerCount = await User.count({
+        where:{
+            role:'customer'
+        }
+    })
+
+    let donationCount = await Appointment.count({
+        where:{
+            userId:req.user.id,
+            status:{
+                [Op.or]:["collected","sold"]
+            }
+        }
+    })
+
+    let purchaseNumber = await Request.count({
+        where:{
+            userId:req.user.id
+        }
+    })
+
+    let stockCount = await Appointment.count({
+        where:{
+            status:'collected'
+        }
+    })
+
+    let purchaseHistory = await Request.findAll({
+        where:{
+            userId:req.user.id
+        },
+        include: [
+            {
+                model: User,
+                include: {
+                    model: Customer
+                }
+            },
+        ]
+    })
+
+    return res.json({
+        customerName:customerName,
+        hospitalCount:hospitalCount,
+        customerCount:customerCount,
+        donationCount:donationCount,
+        purchaseNumber:purchaseNumber,
+        stockCount:stockCount,
+        purchaseHistory:purchaseHistory
+
+    })
+}

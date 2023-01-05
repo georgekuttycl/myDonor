@@ -63,12 +63,13 @@ module.exports.customerAppointment = async (req, res) => {
 
 module.exports.guestAppointment = async (req, res) => {
   //fetching the details from appoinment table using sectionid.
-  const {name, address, bloodgroup, weight, relation} = req.body;
+  const {name, address, bloodgroup, weight, relation, bookFor} = req.body;
   let loggedUser = req.user.id;
   let data = await Appointment.findOne({
     where: {
       userId: loggedUser,
-      relation: 'friend'
+      relation: 'friend',
+      name: name
     },
   });
   const user = await Customer.findOne({
@@ -79,7 +80,7 @@ module.exports.guestAppointment = async (req, res) => {
   });
   console.log(user);
   if (data == null) {
-    console.log("if not exist donante");
+    console.log("if not exist donate");
       //createGuest();
       // const { name, Bloodgroup, weight, adress, relation } = req.body;
       var result = await Appointment.create({
@@ -91,6 +92,7 @@ module.exports.guestAppointment = async (req, res) => {
         appointmentId: loggedUser,
         userId: loggedUser,
         relation: 'friend',
+        forWho:bookFor,
         date: formatDate(new Date(), "yyyy/MM/dd")
       });
       return res.json(new ResponseModel(result, null));
@@ -114,6 +116,7 @@ module.exports.guestAppointment = async (req, res) => {
         appointmentId: loggedUser,
         userId: loggedUser,
         relation: 'friend',
+        forWho:bookFor,
         date: formatDate(new Date(), "yyyy/MM/dd")
       });
       return res.json(new ResponseModel(result, null));

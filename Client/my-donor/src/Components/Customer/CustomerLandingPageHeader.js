@@ -2,7 +2,8 @@
 import React from "react";
 
 import { Button, Container } from "reactstrap";
-
+import { useEffect,useState } from "react";
+import { customerDetails } from "../../api/customerApi";
 
 
 function CustomerLandingPageHeader() {
@@ -22,6 +23,17 @@ function CustomerLandingPageHeader() {
     }
   });
 
+  const [data, setData] = useState({
+    customerName: []
+  });
+  useEffect(() => {
+    customerDetails().then((data) => {
+      console.log(data);
+      setData(data);
+    });
+
+  }, []);
+
   return (
     <>
       <div
@@ -36,7 +48,7 @@ function CustomerLandingPageHeader() {
         <Container>
           <div className="motto text-center">
             <h1>Welcome to your Account</h1>
-            <h3>Customer Name</h3>
+            <h3>{data.customerName.name}</h3>
             <br />
             <Button
               href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"

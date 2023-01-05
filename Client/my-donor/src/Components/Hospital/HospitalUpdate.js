@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { updateHospitalPost, updateHospital } from "../../api/hospitalApi";
 
 const signUpSchema = Yup.object({
-  fullName: Yup.string().min(2).max(25).required(),
-  licenseNumber: Yup.number().required(),
+  fullName: Yup.string().min(2).max(50).required(),
+  licenseNumber: Yup.string().min(8).max(16).required(),
   state: Yup.string().required(),
   pincode: Yup.number().required(),
   email: Yup.string().required(),
@@ -20,6 +20,7 @@ function HospitalUpdate() {
   const [data, setData] = useState({});
   const [user, setUser] = useState({});
   const [hasUpdate, setHasUpdate] = useState(false);
+  const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
     updateHospital().then((result) => {
@@ -30,12 +31,19 @@ function HospitalUpdate() {
     });
   }, []);
 
+  const handleClick = event => {
+    // 👇️ toggle isActive state on click
+
+      setIsActive(current => !current);
+
+  };
+
   return (
     <div>
       <br></br>
       <br></br>
       <br></br>
-      <div className="container mx-auto">
+      <div className={isActive ? 'container mx-auto animate__animated animate__fadeInLeft' : 'container mx-auto animate__animated animate__fadeOutRight'}>
         <div className="flex justify-center px-6 my-12">
           <div className="w-full xl:w-3/4 lg:w-11/12 flex">
             <div
@@ -233,7 +241,7 @@ function HospitalUpdate() {
                       <div className="col-span-2 mt-4">
                         <button
                           type="submit"
-                          className="bg-red-600 text-white rounded-md p-2 w-full w-full hover:bg-red-800 transition"
+                          className="bg-red-600 text-white rounded-md p-2 w-full hover:bg-red-800 transition" onClick={handleClick}
                         >
                           Update
                         </button>

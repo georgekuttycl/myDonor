@@ -8,13 +8,14 @@ const router = express.Router();
 
 router.get('/updatehospital', controller.updateHospital);
 router.post('/updatehospital', controller.updateHospitalPost);
-//router.post('/update/hospital/:id', controller.updateHospitalPost);
-//router.post('/delete/hospital/:id', controller.deleteHospital);
 router.post('/feedback', controller.feedbackHospital);
-//router.get('/logout', controller.logoutHospital);
 
--router.get('/payment', controller.hospitalPayment);
--router.get('/paymentStore', controller.hospitalPaymentStore);
--router.get('/invoice', controller.hospitalInvoice);
+router.get('/payment', controller.hospitalPayment);
+router.get('/paymentStore', controller.hospitalPaymentStore);
+router.get('/invoice', controller.hospitalInvoice);
+
+router.get('/hospitalDetails',controller.hospitalDetails);
+router.get('/hospital/stats',controller.hospitalStats);
+
 
 module.exports = router;

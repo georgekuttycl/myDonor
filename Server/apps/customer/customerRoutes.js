@@ -11,5 +11,7 @@ router.post("/donation/guest",controllerDonation.guestAppointment)
  router.get('/update',controller.getUpdateCustomer);
  router.post('/update',controller.postUpdateCustomer);
 
+ router.get('/customerDetails',controller.customerDetails);
+
 
 module.exports = router;

@@ -11,6 +11,12 @@ function CustomerSignup() {
   // const [show, hide] = React.useState(true);
   const [data, setData] = React.useState({});
   const [otp, setOtp] = React.useState(null);
+  const [errors, setErrors] = useState(null);
+
+  function renderErrors(v, i){
+    return <p key={i}>{v.msg}</p>
+  }
+
   return (
     <div>
       <br></br>
@@ -19,7 +25,7 @@ function CustomerSignup() {
               <Formik
                 initialValues={{ email: "", password: "",state:"",fullName:"",gender:"",phone:"",age:'',weight:"",address:"",pincode:"",confirmPassword:""}}
                 validationSchema={Yup.object({
-                  fullName: Yup.string().min(2).max(25).required("required"),
+                  fullName: Yup.string().min(2).max(50).required("required"),
                   email: Yup.string().email().min(2).max(50).required("required"),
                   phone:Yup.string().min(10).required("required"),
                   age: Yup.number().moreThan(18).lessThan(60).required("required"),
@@ -34,8 +40,14 @@ function CustomerSignup() {
                 })}
                 onSubmit={async (values, { setSubmitting }) => {
                   setData(values);
-                  await customerRegister(values);
-                  console.log(values);
+                  const res = await customerRegister(values);
+                  console.log(res);
+                  if(!res.success){
+                    setErrors(res.errors);
+                  }
+                  else{
+                    setVisible(!visible);
+                  }
                 }}
               >
                 {({ isSubmitting }) => (
@@ -70,7 +82,7 @@ function CustomerSignup() {
                         <label>Email</label>
                         <Field
                           name="email"
-                          type="email"
+                          type="text"
                           className="border rounded shadow-md w-full py-2"
                         />
                         <ErrorMessage
@@ -105,8 +117,8 @@ function CustomerSignup() {
                         >
 
                           <option defaultChecked>Choose</option>
-                          <option value="male">male</option>
-                          <option value="female">female</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
 
                         </Field>
                         </div>
@@ -205,7 +217,7 @@ function CustomerSignup() {
                         <label>Password</label>
                         <Field
                           name="password"
-                          type="text"
+                          type="password"
                           className="border rounded shadow-md w-full py-2"
                         />
                         <ErrorMessage
@@ -218,7 +230,7 @@ function CustomerSignup() {
                         <label>Confirm Password</label>
                         <Field
                           name="confirmPassword"
-                          type="text"
+                          type="password"
                           className="border rounded shadow-md w-full py-2"
                         />
                         <ErrorMessage
@@ -230,12 +242,20 @@ function CustomerSignup() {
                       <div className="col-span-2 mt-4">
                         <button
                           type="submit"
-                          className="bg-red-600 text-white rounded-md p-2 w-full hover:bg-red-800 transition"
-                          onClick={() => setVisible(!visible)}>{visible ? '' : 'Show'}
+                          className="bg-red-600 text-white rounded-md p-2 w-full hover:bg-red-800 transition">{visible ? '' : 'Show'}
 
                           Register
                         </button>
                       </div>
+               <div className='col-span-2 '>
+               <div className='flex flex-row p-2 bg-yellow-900'>
+               <svg class=" w-5 h-5 text-yellow-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path> </svg>
+               <p className='text-white'> Alert !</p>
+               </div>
+               <div className="col-span-2 p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
+                {errors && errors.map(renderErrors)}
+              </div>
+              </div>
                     </div>
             </div>
           </div>
@@ -259,6 +279,7 @@ function CustomerSignup() {
                 <ErrorMessage name="Otp" component="div" className='text-red-600 mt-2'/>
               </div>
               <div className='mt-4 grid'>
+
                 <button type="button" className='bg-red-600 hover:bg-red-800 transition text-white rounded-md p-2' onClick={async(e)=>{
                   console.log(otp);
                   const dataToSend = {...data, otp:otp};

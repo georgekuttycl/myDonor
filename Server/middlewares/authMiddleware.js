@@ -7,11 +7,9 @@ module.exports = (req, res, next) => {
     !req.url.startsWith('/user/')){
         return next();
     }
-
-    console.log(req.headers)
     let token = req.headers['authorization'];
     token = token ? token.split(' ')[1] : null;
-    console.log("Token: ", token);
+    console.log("Token:", token);
 
     if(!token){
         console.log("no token")

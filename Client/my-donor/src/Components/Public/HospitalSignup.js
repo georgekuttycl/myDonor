@@ -2,7 +2,8 @@ import * as React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {hospitalRegister} from '../../api/accountsApi';
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
+import { useState } from "react";
 import { checkOtp } from "../../api/accountsApi";
 
 function HospitalSignup() {
@@ -10,6 +11,12 @@ function HospitalSignup() {
   let navigate = useNavigate();
   const [visible, setVisible] = React.useState(true);
   const [data, setData] = React.useState({});
+  const [otp, setOtp] = React.useState(null);
+  const [errors, setErrors] = useState(null);
+
+  function renderErrors(v, i){
+    return <p key={i}>{v.msg}</p>
+  }
 
   function verifyOtp(){
     const obj = {
@@ -19,11 +26,6 @@ function HospitalSignup() {
     console.log(obj)
     checkOtp(obj).then(res=>{
       console.log(res)
-      if(!res.success){
-        alert('Invalid OTP');
-        return;
-      }
-      navigate("/")
     });
 
 
@@ -37,21 +39,27 @@ function HospitalSignup() {
       <Formik
        initialValues={{ email: "", password: "", confirmPassword: "", name: "", address: "", phone: "", state: "", pincode: "", licenseNumber: "", otp: "", category: "" }}
        validationSchema={Yup.object({
-         name: Yup.string().min(2).max(25).required("Required"),
-         email: Yup.string().email('please enter valid email').required("Required"),
-         password: Yup.string().min(6).max(8).required('Required'),
-         confirmPassword: Yup.string().min(6).max(8).required('Required')
-         .oneOf([Yup.ref('password'), null], 'Password must match'),
-         address: Yup.string().required("Required"),
-         phone: Yup.string().min(10).required("Required"),
-         state: Yup.string().required("Required"),
-         pincode: Yup.string().min(6).required("Required"),
-         licenseNumber: Yup.string().min(3).max(8).required("Required")
+        //  name: Yup.string().min(2).max(50).required("Required"),
+        //  email: Yup.string().email('please enter valid email').required("Required"),
+        //  address: Yup.string().required("Required"),
+        //  phone: Yup.string().min(10).required("Required"),
+        //  state: Yup.string().required("Required"),
+        //  pincode: Yup.string().min(6).required("Required"),
+        //  licenseNumber: Yup.string().min(8).max(16).required("Required"),
+        //  password: Yup.string().min(6).max(20).required('Required'),
+        //  confirmPassword: Yup.string().min(6).max(20).required('Required')
+        //  .oneOf([Yup.ref('password'), null], 'Password must match')
         })}
         onSubmit={async (values, { setSubmitting }) => {
           setData(values);
-          await hospitalRegister(values);
-          console.log(values);
+         const res = await hospitalRegister(values);
+          console.log(res);
+          if(!res.success){
+            setErrors(res.errors);
+          }
+          else{
+            setVisible(!visible);
+          }
         }}
       >
         {({ isSubmitting }) => (
@@ -111,7 +119,7 @@ function HospitalSignup() {
                           <option value="government">Government</option>
                         </Field>
                         <ErrorMessage
-                          name="phone"
+                          name="category"
                           className="text-red-600"
                           component="div"
                         />
@@ -191,7 +199,7 @@ function HospitalSignup() {
                           className="border rounded shadow-md py-2"
                         />
                         <ErrorMessage
-                          name="state"
+                          name="password"
                           className="text-red-600"
                           component="div"
                         />
@@ -204,7 +212,7 @@ function HospitalSignup() {
                           className="border rounded shadow-md py-2"
                         />
                         <ErrorMessage
-                          name="pincode"
+                          name="confirmPassword"
                           className="text-red-600"
                           component="div"
                         />
@@ -212,10 +220,19 @@ function HospitalSignup() {
                       <div className="col-span-2">
                         <button
                           type="submit"
-                          className="bg-red-600 text-white rounded-md p-2 mt-2 hover:bg-red-800 transition w-full"
-                          onClick={() => setVisible(!visible)}>{visible ? "" : "Show"} Register
+                          className="bg-red-600 text-white rounded-md p-2 mt-2 hover:bg-red-800 transition w-full">
+                          {visible ? '' : 'Show'} Register
                         </button>
                       </div>
+                      <div className='col-span-2 '>
+               <div className='flex flex-row p-2 bg-yellow-900'>
+               <svg class=" w-5 h-5 text-yellow-700" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path> </svg>
+               <p className='text-white'> Alert !</p>
+               </div>
+               <div className="col-span-2 p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
+                {errors && errors.map(renderErrors)}
+              </div>
+              </div>
                     </div>
                   </div>
                 </div>
@@ -234,7 +251,7 @@ function HospitalSignup() {
               </div>
               <div className="grid">
                 <label>Enter Otp</label>
-                <Field type="number" name="otp" className="rounded border py-2" />
+                <Field type="number" name="otp" className="rounded border py-2" value={otp} onChange={(e)=>setOtp(e.target.value)}/>
                 <ErrorMessage
                   name="otp"
                   component="div"
@@ -242,10 +259,15 @@ function HospitalSignup() {
                 />
               </div>
               <div className="mt-4 grid">
-                <button
-                  type="button"
-                  className="bg-red-600 hover:bg-red-800 transition text-white rounded-md p-2"
-                  onClick={verifyOtp}>
+              <button type="button" className='bg-red-600 hover:bg-red-800 transition text-white rounded-md p-2' onClick={async(e)=>{
+                  console.log(otp);
+                  const dataToSend = {...data, otp:otp};
+                  var res = await checkOtp(dataToSend);
+                  if(res.success){
+                    alert("Otp Verified")
+                    navigate("/");
+                  }
+                }}>
                   Check
                 </button>
               </div>

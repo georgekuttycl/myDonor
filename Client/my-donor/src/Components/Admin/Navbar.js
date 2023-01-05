@@ -17,7 +17,7 @@ function Navbar() {
                 <path d="M505.902 476.472L386.574 357.144c-8.131-8.131-21.299-8.131-29.43 0-8.131 8.124-8.131 21.306 0 29.43l119.328 119.328A20.74 20.74 0 00491.187 512a20.754 20.754 0 0014.715-6.098c8.131-8.124 8.131-21.306 0-29.43z" /></svg>
             </button>
 
-            <div data-search-form className="relative mr-3 hidden md:inline-block">
+            <div data-search-form className="ml-40 relative mr-3 hidden md:inline-block">
               <div className="text-gray-500">
               </div>
               <input type="text" placeholder="Search" name="search" id="search" className="h-auto pl-10 py-2 bg-gray-200 text-sm border border-gray-500 rounded-full focus:outline-none focus:bg-white"/>
@@ -41,14 +41,6 @@ function Navbar() {
               <span className="ml-4 text-sm hidden md:inline-block">Admin</span>
               <svg className="fill-current w-3 ml-4" viewBox="0 0 407.437 407.437">
                 <path d="M386.258 91.567l-182.54 181.945L21.179 91.567 0 112.815 203.718 315.87l203.719-203.055z" /></svg>
-
-              {/* <div data-dropdown-items className="text-sm text-left absolute top-0 right-0 mt-16 mr-4 bg-white rounded border border-gray-400 shadow" x-show="open">
-                <ul>
-                  <li className="px-4 py-3 border-b hover:bg-gray-200"><a href="#">My Profile</a></li>
-                  <li className="px-4 py-3 border-b hover:bg-gray-200"><a href="#">Settings</a></li>
-                  <li className="px-4 py-3 hover:bg-gray-200"><a href="#">Log out</a></li>
-                </ul>
-              </div> */}
             </button>
 
           </div>

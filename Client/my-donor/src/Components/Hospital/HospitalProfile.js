@@ -19,7 +19,7 @@ useEffect(() => {
 
   return (
 
-     <div className="container emp-profile">
+     <div className="container emp-profile animate__animated animate__fadeIn">
          <br></br>
          <br></br>
          <br></br>

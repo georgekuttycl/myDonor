@@ -1,7 +1,9 @@
 
 import React from "react";
+import { useState,useEffect } from "react";
 
 import { Button, Container } from "reactstrap";
+import { hospitalName,hospitalStats } from "../../api/hospitalApi";
 
 
 
@@ -22,6 +24,16 @@ function HospitalLandingPageHeader() {
     }
   });
 
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    hospitalName().then((data) => {
+      console.log(data);
+      setData(data);
+    });
+
+  }, []);
+
+
   return (
     <>
       <div
@@ -36,21 +48,7 @@ function HospitalLandingPageHeader() {
         <Container>
           <div className="motto text-center">
             <h1>Welcome to your Account</h1>
-            <h3>Hospital</h3>
-            <br />
-            <Button
-              href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-              className="btn-round mr-1"
-              color="neutral"
-              target="_blank"
-              outline
-            >
-              <i className="fa fa-play" />
-              Watch video
-            </Button>
-            <Button className="btn-round" color="neutral" type="button" outline>
-              Download
-            </Button>
+            <h3>{data.name}</h3>
           </div>
         </Container>
       </div>

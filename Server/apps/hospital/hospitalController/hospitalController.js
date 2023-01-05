@@ -1,7 +1,6 @@
-/**done by finu */
 
 const { formatDate } = require('date-utils-2020');
-const { Hospital, User, Feedback,Request, Payment } = require('../../../data/models');
+const { Hospital, User, Feedback,Request, Payment, Appointment } = require('../../../data/models');
 const ResponseModel = require('../../../utilities/responseModel');
 
 
@@ -38,34 +37,6 @@ module.exports.updateHospitalPost = async (req, res, next) => {
     return res.json(new ResponseModel(count[0], null, []))
 }
 
-/**delete hospital */
-// module.exports.deleteHospital = async(req, res,next) => {
-//     let id = req.params.id;
-//     let hospital = await Hospital.findByPk(id);
-
-//     if (hospital != null) {
-//         await Hospital.destroy({
-//             where: {
-//                 id: id
-//             }
-//         });
-//     }
-// }
-
-/**payment */
-// module.exports.myPayment = (req, res, next) => {
-//     let id = req.session.userId;
-//     payment.findAll({
-//         where:
-//             { id: passenger_id }
-//     })
-
-//         .then(bookings => {
-//             res.render('bookingDetails', {
-//                 data: bookings
-//             });
-//         })
-// }
 
 /**feedback */
 module.exports.feedbackHospital = async(req,res)=>{
@@ -80,11 +51,7 @@ module.exports.feedbackHospital = async(req,res)=>{
 
 };
 
-/**logout */
-// module.exports.logoutHospital = (req, res, next) => {
-//     req.session = null;
-//     res.redirect("/");
-// }
+
 
 module.exports.hospitalPayment = async(req,res)=>{
     console.log(req.user.id)
@@ -131,5 +98,64 @@ module.exports.hospitalInvoice = async(req,res)=>{
     });
     console.log(data)
     res.json(data);
+}
+
+//hospital details on hospital home page
+
+module.exports.hospitalDetails = async(req,res)=>{
+  let details = await Hospital.findOne({
+    where:{
+        userId:req.user.id
+    }
+  })
+  res.json(details);
+}
+
+//hospital home Page stats
+module.exports.hospitalStats = async(req,res)=>{
+    let hospitalCount = await User.count({
+        where:{
+            role:'hospital',
+        }
+    });
+    let customerCount = await User.count({
+        where:{
+            role:'customer',
+        }
+    });
+
+    let stockCount = await Appointment.count({
+        where:{
+            status:'collected'
+        }
+    })
+
+    let purchaseNumber = await Request.count({
+        where:{
+            userId:req.user.id
+        }
+    })
+
+    let purchaseHistory = await Request.findAll({
+        where:{
+            userId:req.user.id
+        },
+        include: [
+            {
+                model: User,
+                include: {
+                    model: Hospital
+                }
+            },
+        ]
+    })
+    console.log(purchaseHistory);
+    return res.json({
+        hospitalCount: hospitalCount,
+        customerCount: customerCount,
+        stockCount: stockCount,
+        purchaseNumber: purchaseNumber,
+        purchaseHistory:purchaseHistory
+    })
 }
 

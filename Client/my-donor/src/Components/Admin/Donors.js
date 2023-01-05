@@ -14,6 +14,7 @@ function Donors() {
 
   useEffect(()=>{
     getCustomerDetails().then(res=>{
+      console.log(res)
       setData(res);
     });
   },[]);
@@ -21,8 +22,7 @@ function Donors() {
       <div className="App wrapper">
 
         <MUIDataTable
-          title={"Donors List"}
-          // data={(data.name)}
+          title={<h3>Donors List</h3>}
           data={data}
           columns={columns}
           options={options}

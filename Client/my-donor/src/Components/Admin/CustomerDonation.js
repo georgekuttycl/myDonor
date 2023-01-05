@@ -37,12 +37,12 @@ function CustomerDonation() {
   function getRow(item, index) {
     return (
       <tr key={index}>
-        <td>{item.id}</td>
+        <td>{index + 1}</td>
         <td>{item.name}</td>
-        <td>{item.Bloodgroup}</td>
         <td>{item.address}</td>
+        <td>{item.bloodGroup}</td>
         <td>
-          {item.status == "collected"?<span>Collected</span>:<button className="bg-indigo-600 text-white" data-id={item.id} onClick={markCollected}>Mark Collected</button>}
+          {item.status === "collected"?<span>Collected</span>:<button className="bg-indigo-600 text-white" data-id={item.id} onClick={markCollected}>Mark Collected</button>}
         </td>
       </tr>
     );
@@ -55,14 +55,14 @@ function CustomerDonation() {
             <Table striped style={{ backgroundColor: "white" }}>
               <thead>
                 <tr style={{ backgroundColor: "purple" }}>
-                  <th colSpan={4}>Table</th>
+                  <th colSpan={5} style={{color:'white'}}>Appointment History</th>
                 </tr>
                 <tr>
                   <th>SL No.</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Username</th>
-                  <td>Action</td>
+                  <th>Name</th>
+                  <th>Address</th>
+                  <th>Blood Group</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>{data.map(getRow)}</tbody>

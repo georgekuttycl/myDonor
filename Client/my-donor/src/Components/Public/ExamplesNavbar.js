@@ -118,7 +118,7 @@ function ExamplesNavbar() {
             </NavItem>
             <UncontrolledDropdown>
                 <DropdownToggle caret style={{backgroundColor:'red',borderColor:'red',borderRadius:'20px'}}> <i class="fa-solid fa-right-to-bracket"></i>sign up</DropdownToggle>
-                <DropdownMenu>
+                <DropdownMenu className="mt-3">
                 <Link to={"/customerSignup"} style={{textDecoration:'none'}}> <DropdownItem >Customer</DropdownItem></Link>
                 <Link to={"/hospitalSignup"} style={{textDecoration:'none'}}> <DropdownItem >Hospital</DropdownItem></Link>
 

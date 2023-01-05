@@ -5,9 +5,10 @@ const {
     AppointmentGuest,
     bloodGroup,
     feedback,
-    request,
+    Request,
     payment,
-    User
+    User,
+    Payment
 } = require("../../../data/models");
 const express = require('express');
 const {
@@ -51,11 +52,12 @@ module.exports.getAllAppointments = async (req, res, next) => {
     data.forEach(row=>{
         response.push({
             id: row.id,
-            name: row.User.Customer.name,
+            name: row.relation == 'friend'? row.name: row.User.Customer.name,
             address: row.User.Customer.address,
             bloodGroup: row.Bloodgroup,
             date: row.date,
-            weight:row.User.Customer.weight
+            weight:row.User.Customer.weight,
+            status: row.status
         })
         //console.log(row.Customer.name);
     })
@@ -120,4 +122,93 @@ module.exports.approveAppointment = async(req, res)=>{
     appointment.status = 'collected';
     appointment.save();
     return res.json(new ResponseModel(appointment));
+}
+
+//admin home page stats
+module.exports.adminStats = async(req,res)=>{
+    let hospitalCount = await User.count({
+        where:{
+            role:'hospital',
+        }
+    });
+    let customerCount = await User.count({
+        where:{
+            role:'customer',
+        }
+    });
+
+    let stockCount = await Appointment.count({
+        where:{
+            status:'collected'
+        }
+    });
+
+    let purchaseCount = await Request.count();
+    // console.log(purchaseHistory);
+    return res.json({
+        hospitalCount: hospitalCount,
+        customerCount: customerCount,
+        stockCount: stockCount,
+        purchaseCount: purchaseCount
+    })
+}
+
+//admin home page tables
+//Hospital Purchase History
+module.exports.hospitalPurchaseHistory = async(req,res)=>{
+    let purchaseHistory = await Request.findAll({
+        include: [
+            {
+                model: User,
+                include: {
+                    model:Hospital,
+                },
+                where:{
+                    role:'hospital'
+                }
+            }
+        ]
+    });
+
+    var response = [];
+    purchaseHistory.forEach(row=>{
+        const amount = 200/row.quantity;
+        response.push({
+            id: row.id,
+            hospitalName: row.User.Hospital.name,
+            quantity:row.quantity,
+            group:row.group,
+            amount:amount,
+           date:row.date
+        })
+    })
+    res.json(response);
+}
+
+//Customer purchase History
+module.exports.customerPurchaseHistory = async(req,res)=>{
+    let purchaseHistory = await Request.findAll({
+        include:[{
+            model:User,
+            include:{
+                model:Customer
+            },
+            where:{
+                role:'customer'
+            }
+        }]
+    });
+    var response = [];
+    purchaseHistory.forEach(row=>{
+        const amount = 200/row.quantity;
+        response.push({
+            id: row.id,
+            hospitalName: row.User.Customer.name,
+            quantity:row.quantity,
+            group:row.group,
+            amount:amount,
+           date:row.date
+        })
+    })
+    res.json(response);
 }

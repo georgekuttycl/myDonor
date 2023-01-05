@@ -44,4 +44,13 @@ const feedbackHospitalPost =async (data)=>{
 
 }
 
-export  {updateHospital,updateHospitalPost,bloodRequest,hospitalPayment,hospitalPaymentStore,hospitalInvoice, feedbackHospitalPost};
+const hospitalName =async (data)=>{
+    var response=await axios.get('/user/hospitalDetails',data);
+    return response.data;
+}
+
+const hospitalStats =async (data)=>{
+    var response=await axios.get('/user/hospital/stats',data);
+    return response.data;
+}
+export  {updateHospital,updateHospitalPost,bloodRequest,hospitalPayment,hospitalPaymentStore,hospitalInvoice, feedbackHospitalPost,hospitalName,hospitalStats};

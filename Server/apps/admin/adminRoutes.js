@@ -31,4 +31,8 @@ router.get('/hospitalapproval/:id', controller.hospitalApproval);
 //router of hospital rejection
 router.get('/rejecthospital/:id', controller.rejectHospital);
 
+router.get('/adminStats',controller.adminStats);
+router.get('/hospitalPurchaseHistory',controller.hospitalPurchaseHistory);
+router.get('/customerPurchaseHistory',controller.customerPurchaseHistory);
+
 module.exports = router;

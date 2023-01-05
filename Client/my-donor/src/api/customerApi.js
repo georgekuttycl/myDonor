@@ -1,10 +1,5 @@
 import axios from "./requestBase";
 
-// const customer = async (data)=>{
-//     var response = await axios.get('/customer/details',data);
-//     return response.data;
-// }
-// export {customer}
 
 const updateCustomer =async (data)=>{
     var response=await axios.get('/customer/update');
@@ -45,6 +40,13 @@ const feedbackCustomerPost =async (data)=>{
     return response.data;
 
 }
+
+const customerDetails = async(data)=>{
+var response = await axios.get('customer/customerDetails',data);
+return response.data;
+}
+
+
 export  {
     updateCustomer,
     updateCustomerPost,
@@ -52,5 +54,6 @@ export  {
     guestAppointment,
     bloodRequest,
     hospitalInvoice,
-    feedbackCustomerPost
+    feedbackCustomerPost,
+    customerDetails
 }

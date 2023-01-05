@@ -5,9 +5,18 @@ const ResponseModel = require("../../../utilities/responseModel");
 const tokenHandler = require("../../../utilities/tokenHandler");
 const otp_verify = require("otp-verify"); //otp-verifier import
 const { PasswordHasher } = require("../../../utilities/passwordHashing");
+const { validationResult } = require("express-validator");
+const customerRegistration = require("../../../data/validationSchemas/customerRegistration");
+const hospitalRegistration = require("../../../data/validationSchemas/hospitalRegistartion");
 //
 module.exports.customerRegistration = async (req, res) => {
    console.log("customer body",req.body);
+
+  await Promise.all(customerRegistration.map(v=>v.run(req)));
+  const errors = validationResult(req);
+  if(!errors.isEmpty()){
+    return res.json(new ResponseModel(null, null, errors.errors));
+  }
   // return;
   const {
     fullName,
@@ -92,7 +101,7 @@ module.exports.checkOtp = async (req, res) => {
 
 
   if (!user) {
-    return res.json(new ResponseModel(null, null, ["Invalid OPT"]));
+    return res.json(new ResponseModel(null, null, ["Invalid OTP"]));
   }
   user.otp = 0;
   await user.save();
@@ -103,6 +112,12 @@ module.exports.checkOtp = async (req, res) => {
 // hospital registrtion table insertion
 module.exports.hospitalRegistration = async (req, res) => {
  // return;
+ console.log("customer body",req.body);
+ await Promise.all(hospitalRegistration.map(v=>v.run(req)));
+const errors = validationResult(req);
+if(!errors.isEmpty()){
+  return res.json(new ResponseModel(null, null, errors.errors));
+}
  const {
   name,
   licenseNumber,
@@ -116,6 +131,7 @@ module.exports.hospitalRegistration = async (req, res) => {
   role,
   otp
 } = req.body;
+
  // email otp sending functionlaity.
  otp_verify.setupSenderEmail({
    service: "gmail",
@@ -178,10 +194,14 @@ module.exports.login = async (req, res) => {
   const { email, password } = req.body;
   //checking database.
   let loggedUser = await User.findOne({
-    where: { email: email},
+    where: {
+      email: email,
+      otp:"0"
+    },
     include: Hospital
   });
-  // Checking password
+
+  // Checking password.
   if (!loggedUser) {
     return res.json(new ResponseModel(null, null, ["Invalid credentials."]));
   }
@@ -192,8 +212,8 @@ module.exports.login = async (req, res) => {
     return res.json(new ResponseModel(null, null, ["Invalid password."]));
   }
   if(loggedUser.dataValues.role == 'hospital'){
-    if(!loggedUser.Hospital.status == 1){
-    return res.json(new ResponseModel(null, null, ["Hospital is not approved."]));
+    if(loggedUser.Hospital.status != 1){
+      return res.json(new ResponseModel(null, null, ["Hospital is not approved."]));
     }
   }
   // Create token.

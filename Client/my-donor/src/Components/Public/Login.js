@@ -33,11 +33,14 @@ function Login() {
     console.log(res);
     switch (res.role) {
       case 'customer':
-        return navigate('/customer');
+        // return navigate('/customer');
+        return window.location.replace('/customer');
       case 'admin':
-        return navigate('/admin');
+        // return navigate('/admin');
+        return window.location.replace('/admin');
       case 'hospital':
-        return navigate('/hospital');
+        // return navigate('/hospital');
+        return window.location.replace('/hospital');
       default:
         break;
     }
